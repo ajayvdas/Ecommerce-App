@@ -1,0 +1,240 @@
+import { useState } from "react";
+import { Search, User, Heart, ShoppingBag, LogOutIcon, LogInIcon, Menu, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "@/slices/usersApiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/slices/authSlice";
+import TooltipComponent from "./TooltipComponent";
+import StylizedHeading from "./StylizedHeading";
+import ProductCommandSearch from "./ProductCommandSearch";
+
+const Header = () => {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { userInfo } = useSelector((state) => state.auth);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [logoutApiCall] = useLogoutMutation();
+
+    const logoutHandler = async () => {
+        try {
+            await logoutApiCall().unwrap();
+            dispatch(logout());
+            // NOTE: here we need to reset cart state for when a user logs out so the next
+            // user doesn't inherit the previous users cart and shipping
+            navigate("/login");
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    return (
+        <header>
+            <nav className="fixed z-50 w-full bg-white/95 backdrop-blur-sm shadow-lg border-b border-gray-100">
+                <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+                    {/* Main Header Row */}
+                    <div className="flex items-center justify-between h-14 sm:h-16">
+                        {/* Logo Section */}
+                        <div className="flex-shrink-0 cursor-pointer">
+                            <div className="scale-90 sm:scale-100">
+                                <StylizedHeading />
+                            </div>
+                        </div>
+
+                        {/* Desktop Navigation */}
+                        <div className="hidden lg:flex items-center space-x-6">
+                            <div className="flex-1 max-w-md">
+                                
+                                    <ProductCommandSearch />
+                               
+                            </div>
+
+                            <div className="flex items-center space-x-4">
+                                <TooltipComponent content="Profile">
+                                    <Link
+                                        to="/register"
+                                        className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
+                                    >
+                                        <User className="h-5 w-5" />
+                                    </Link>
+                                </TooltipComponent>
+
+                                <TooltipComponent content="Liked Products">
+                                    <button
+                                        className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
+                                        aria-label="Wishlist"
+                                    >
+                                        <Heart className="h-5 w-5" />
+                                    </button>
+                                </TooltipComponent>
+
+                                <TooltipComponent content="Cart">
+                                    <Link
+                                        to="/cart"
+                                        className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
+                                    >
+                                        <ShoppingBag className="h-5 w-5" />
+                                    </Link>
+                                </TooltipComponent>
+
+                                {userInfo ? (
+                                    <TooltipComponent content="Logout">
+                                        <button
+                                            onClick={logoutHandler}
+                                            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
+                                            aria-label="Logout"
+                                        >
+                                            <LogOutIcon className="h-5 w-5" />
+                                        </button>
+                                    </TooltipComponent>
+                                ) : (
+                                    <TooltipComponent content="Login">
+                                        <button
+                                            onClick={logoutHandler}
+                                            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
+                                            aria-label="Login"
+                                        >
+                                            <LogInIcon className="h-5 w-5" />
+                                        </button>
+                                    </TooltipComponent>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Tablet Navigation (md to lg) */}
+                        <div className="hidden md:flex lg:hidden items-center space-x-3">
+                            <div className="flex-1 max-w-xs">
+                                <ProductCommandSearch />
+                            </div>
+
+                            <div className="flex items-center space-x-2">
+                                <Link
+                                    to="/register"
+                                    className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
+                                >
+                                    <User className="h-4 w-4" />
+                                </Link>
+                                <button
+                                    className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
+                                    aria-label="Wishlist"
+                                >
+                                    <Heart className="h-4 w-4" />
+                                </button>
+                                <Link
+                                    to="/cart"
+                                    className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
+                                >
+                                    <ShoppingBag className="h-4 w-4" />
+                                </Link>
+                                {userInfo ? (
+                                    <button
+                                        onClick={logoutHandler}
+                                        className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
+                                        aria-label="Logout"
+                                    >
+                                        <LogOutIcon className="h-4 w-4" />
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={logoutHandler}
+                                        className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
+                                        aria-label="Login"
+                                    >
+                                        <LogInIcon className="h-4 w-4" />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Mobile Navigation Toggle */}
+                        <div className="md:hidden flex items-center space-x-2">
+                            <div className="flex items-center space-x-1">
+                                <Link to="/cart" className="p-2 text-gray-600 hover:text-gray-900 rounded-md">
+                                    <ShoppingBag className="h-5 w-5" />
+                                </Link>
+                                <button
+                                    onClick={toggleMobileMenu}
+                                    className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
+                                    aria-label="Toggle menu"
+                                >
+                                    {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Mobile Menu Dropdown */}
+                    <div
+                        className={`md:hidden transition-all duration-300 ease-in-out ${
+                            isMobileMenuOpen ? "max-h-96 opacity-100 pb-4" : "max-h-0 opacity-0 overflow-hidden"
+                        }`}
+                    >
+                        {isMobileMenuOpen && (
+                            <div className="border-t border-gray-100 pt-4 space-y-3">
+                                {/* Search bar for mobile */}
+                                <div className="px-1">
+                                    <ProductCommandSearch />
+                                </div>
+
+                                {/* Mobile menu items */}
+                                <div className="flex flex-col space-y-2">
+                                    <Link
+                                        to="/register"
+                                        className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        <User className="h-5 w-5" />
+                                        <span className="text-sm font-medium">Profile</span>
+                                    </Link>
+
+                                    <button
+                                        className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200 w-full text-left"
+                                        aria-label="Wishlist"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        <Heart className="h-5 w-5" />
+                                        <span className="text-sm font-medium">Wishlist</span>
+                                    </button>
+
+                                    {userInfo ? (
+                                        <button
+                                            onClick={() => {
+                                                logoutHandler();
+                                                setIsMobileMenuOpen(false);
+                                            }}
+                                            className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200 w-full text-left"
+                                            aria-label="Logout"
+                                        >
+                                            <LogOutIcon className="h-5 w-5" />
+                                            <span className="text-sm font-medium">Logout</span>
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={() => {
+                                                logoutHandler();
+                                                setIsMobileMenuOpen(false);
+                                            }}
+                                            className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200 w-full text-left"
+                                            aria-label="Login"
+                                        >
+                                            <LogInIcon className="h-5 w-5" />
+                                            <span className="text-sm font-medium">Login</span>
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </nav>
+        </header>
+    );
+};
+
+export default Header;
