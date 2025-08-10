@@ -138,7 +138,7 @@ console.log(initiaProductsOnCommand)
                 
                 {displayItems.map((item, index) => (
                   <div
-                    key={item.id || item.action}
+                    key={item._id || item.action}
                     className={`px-4 py-3 cursor-pointer transition-colors duration-150 ${
                       index === selectedIndex ? 'bg-blue-50 border-r-2 border-blue-500' : 'hover:bg-gray-50'
                     }`}
