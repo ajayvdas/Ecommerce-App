@@ -19,7 +19,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export default function OrderListPage() {
     const { data: orders, isLoading, error } = useGetOrdersQuery();
-    // console.log("all orders is:", allOrders);
+    console.log("all orders is:", orders);
     // const [orders, setOrders] = useState(initialOrders);
 
     return (
@@ -54,14 +54,14 @@ export default function OrderListPage() {
                                         <TableCell>{order.createdAt?.substring(0, 10)}</TableCell>
                                         <TableCell>${order.totalPrice?.toFixed(2)}</TableCell>
                                         <TableCell>
-                                            {order.paid ? (
+                                            {order.isPaid ? (
                                                 <Check className="h-5 w-5 text-green-500" />
                                             ) : (
                                                 <X className="h-5 w-5 text-red-500" />
                                             )}
                                         </TableCell>
                                         <TableCell>
-                                            {order.delivered ? (
+                                            {order.isDelivered ? (
                                                 <Check className="h-5 w-5 text-green-500" />
                                             ) : (
                                                 <X className="h-5 w-5 text-red-500" />

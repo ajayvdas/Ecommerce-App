@@ -5,7 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useParams } from "react-router-dom";
-import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery } from "@/slices/ordersApiSlice";
+import {
+    useGetOrderDetailsQuery,
+    usePayOrderMutation,
+    useGetPayPalClientIdQuery,
+    useDeliverOrderMutation,
+} from "@/slices/ordersApiSlice";
 import Error from "@/components/Error";
 import Loader from "@/components/Loader";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
@@ -18,6 +23,8 @@ export default function OrderPage() {
     const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId);
 
     const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation(orderId);
+
+    const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
 
     const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
@@ -65,29 +72,33 @@ export default function OrderPage() {
         toast.success("Order is paid");
     }
 
+    function onError(err) {
+        toast.error(err.message);
+    }
 
-  function onError(err) {
-    toast.error(err.message);
-  }
+    function createOrder(data, actions) {
+        return actions.order
+            .create({
+                purchase_units: [
+                    {
+                        amount: { value: order.totalPrice },
+                    },
+                ],
+            })
+            .then((orderID) => {
+                return orderID;
+            });
+    }
 
-  function createOrder(data, actions) {
-    return actions.order
-      .create({
-        purchase_units: [
-          {
-            amount: { value: order.totalPrice },
-          },
-        ],
-      })
-      .then((orderID) => {
-        return orderID;
-      });
-  }
-
-  // const deliverHandler = async () => {
-  //   await deliverOrder(orderId);
-  //   refetch();
-  // };
+    const deliverOrderHandler = async () => {
+        try {
+            await deliverOrder(orderId);
+            refetch();
+            toast.success("Order delivered");
+        } catch (error) {
+            toast.error(error?.data?.message || error.message);
+        }
+    };
 
     // Loading state
     if (isLoading) {
@@ -238,6 +249,20 @@ export default function OrderPage() {
                                         </div>
                                     )}
                                 </>
+                            )}
+                        </div>
+
+                        <div>
+                            {loadingDeliver && <Loader />}
+                            {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                                <div className="mt-6 space-y-4">
+                                    <Button
+                                        onClick={deliverOrderHandler}
+                                        //className="w-full bg-[#FFC439] hover:bg-[#F2B829] text-black"
+                                    >
+                                        Mark As Delivered
+                                    </Button>
+                                </div>
                             )}
                         </div>
                     </CardContent>
