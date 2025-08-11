@@ -13,7 +13,7 @@ export default function ProductGrid({ products, totalCount }) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
                     {filteredProducts.map((product) => (
                         <div key={product._id} className="group transition-all duration-300">
-                            <Card className="w-full overflow-hidden border rounded-lg shadow-sm bg-white dark:bg-gray-900">
+                            <Card className="w-full overflow-hidden border rounded-lg shadow-sm bg-white dark:bg-gray-900 hover:border hover:border-black">
                                 {/* Image */}
                                 <Link to={`/product/${product._id}`} className="block relative">
                                     <img
