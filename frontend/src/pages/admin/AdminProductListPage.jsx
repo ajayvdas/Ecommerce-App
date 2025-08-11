@@ -46,6 +46,7 @@ function ProductListPage() {
     const [description, setDescription] = useState("");
 
     const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+    console.log("products is: ", products)
 
     const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation();
     const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation();
@@ -82,7 +83,7 @@ function ProductListPage() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-screen-xl">
+        <div className="container mx-auto px-4 py-8 max-w-screen-xl mt-12">
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-3xl font-bold">Products</h1>
@@ -168,7 +169,7 @@ function ProductListPage() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {products?.map((product) => (
+                                {products?.products.map((product) => (
                                     <TableRow key={product._id}>
                                         <TableCell>{product._id}</TableCell>
                                         <TableCell>{product.name}</TableCell>
