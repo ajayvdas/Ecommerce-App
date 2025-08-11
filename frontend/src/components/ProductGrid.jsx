@@ -2,68 +2,73 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import Pagination from "./Pagination";
 
-export default function ProductGrid({
-    products,
-    totalCount,
-    // totalItems,
-    // currentPage,
-    // itemsPerPage
-}) {
-    // const filteredProducts = query
-    //     ? products?.filter((product) =>
-    //           product.name.toLowerCase().includes(query.toLowerCase())
-    //       )
-    //     : products;
+export default function ProductGrid({ products, totalCount }) {
     const filteredProducts = products;
-
-    // const isQueryActive = query?.trim().length > 0;
     const isQueryActive = false;
+    console.log('products is:', products)
 
     return (
         <main className="flex-1 px-4 md:px-6 lg:px-8">
             {filteredProducts && filteredProducts.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
                     {filteredProducts.map((product) => (
-                        <div key={product._id} className="group transform transition-all duration-300 hover:shadow-xl">
-                            <Card className="w-full h-full overflow-hidden border-0 shadow-md hover:shadow-lg transition-all duration-300 bg-white dark:bg-gray-800 max-w-sm mx-auto">
-                                <Link to={`/product/${product._id}`} className="block h-full">
-                                    <CardContent className="p-0 relative h-full flex flex-col">
-                                        <div className="relative overflow-hidden">
-                                            <img
-                                                src={product.image}
-                                                alt={product.name}
-                                                className="w-full h-48 sm:h-52 md:h-56 lg:h-60 xl:h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-                                                loading="lazy"
-                                            />
-                                            <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors duration-300"></div>
-                                        </div>
-
-                                        <div className="p-4 md:p-5 lg:p-6 flex-1 flex flex-col justify-between">
-                                            <div className="space-y-2 md:space-y-3">
-                                                <h3 className="font-bold text-base md:text-lg lg:text-xl text-gray-900 dark:text-white line-clamp-2 transition-colors duration-300">
-                                                    {product.name}
-                                                </h3>
-
-                                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
-                                                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                                                        {product.category}
-                                                    </span>
-                                                    <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-                                                        {product.brand}
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <div className="mt-4 flex items-center justify-between">
-                                                <div className="flex flex-col">
-                                                    <span className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white transition-colors duration-300">
-                                                        ${product.price.toFixed(2)}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </CardContent>
+                        <div key={product._id} className="group transition-all duration-300">
+                            <Card className="w-full overflow-hidden border rounded-lg shadow-sm bg-white dark:bg-gray-900">
+                                {/* Image */}
+                                <Link to={`/product/${product._id}`} className="block relative">
+                                    <img
+                                        src={product.image}
+                                        alt={product.name}
+                                        className="w-full h-60 object-cover transition-transform duration-300 group-hover:scale-105"
+                                        loading="lazy"
+                                    />
                                 </Link>
+
+                                {/* Content */}
+                                <CardContent className="p-4 flex flex-col space-y-2">
+                                    {/* Category */}
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                                        {product.category}
+                                    </p>
+
+                                    {/* Name */}
+                                    <h3 className="font-semibold text-base text-gray-900 dark:text-white">
+                                        {product.name}
+                                    </h3>
+
+                                    {/* Reviews */}
+                                    <div className="flex items-center text-sm">
+                                        <div className="flex text-yellow-500 mr-1">
+                                            {"★".repeat(4)}{"☆"}
+                                        </div>
+                                        <span className="text-gray-500">
+                                            {product.reviews || 5} Reviews
+                                        </span>
+                                    </div>
+
+                                    {/* Stock */}
+                                    <p
+                                        className={`text-sm font-medium ${
+                                            product.countInStock > 0
+                                                ? "text-green-600"
+                                                : "text-red-500"
+                                        }`}
+                                    >
+                                        {product.countInStock > 0 ? `In Stock (${product.countInStock})` : "Out of Stock"}
+                                    </p>
+
+                                    {/* Price & Add to Cart */}
+                                    <div className="flex items-center justify-between pt-2">
+                                        <span className="text-lg font-bold text-gray-900 dark:text-white">
+                                            ${product.price.toFixed(2)}
+                                        </span>
+                                        <button
+                                            className="px-4 py-2 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-800 transition-colors duration-200"
+                                        >
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                </CardContent>
                             </Card>
                         </div>
                     ))}
@@ -94,9 +99,8 @@ export default function ProductGrid({
                 </div>
             ) : null}
 
-            {/* Pagination Component */}
+            {/* Pagination */}
             <div className="mt-8 md:mt-12 lg:mt-16">
-                {/* <Pagination totalItems={totalItems} currentPage={currentPage} itemsPerPage={itemsPerPage} /> */}
                 <Pagination totalCount={totalCount} />
             </div>
         </main>
