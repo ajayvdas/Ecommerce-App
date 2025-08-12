@@ -34,7 +34,8 @@ app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 )
 
-app.use('/images', express.static('path_to_images_folder'));
+const __dirname = path.resolve(); //set __dirname to current directory
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 app.use(notFound)
 app.use(errorHandler)
 
