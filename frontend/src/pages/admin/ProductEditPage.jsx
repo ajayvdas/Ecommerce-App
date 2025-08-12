@@ -69,7 +69,7 @@ export default function ProductEditPage() {
         }
     };
     return (
-        <div className="container mx-auto px-4 py-8 lg:px-8 lg:py-16 max-w-screen-md">
+        <div className="container mx-auto px-4 py-8 lg:px-8 lg:py-16 max-w-screen-md mt-12">
             {isLoading ? (
                 <Loader />
             ) : error ? (
