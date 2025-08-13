@@ -72,7 +72,7 @@ function ProductListPage() {
     const deleteProductHandler = async (id) => {
         if (window.confirm("Are you sure")) {
             try {
-                console.log("id is:", id);
+                // console.log("id is:", id);
                 await deleteProduct(id);
                 toast.success("Product deleted");
                 refetch();
