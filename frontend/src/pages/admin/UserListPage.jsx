@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, X, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useGetUsersQuery } from "@/slices/usersApiSlice";
+import { useDeleteUserMutation, useGetUsersQuery } from "@/slices/usersApiSlice";
 import Loader from "@/components/Loader";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Mock data for users
 // const initialUsers = [
@@ -20,11 +20,19 @@ export default function UserListPage() {
     // const [users, setUsers] = useState(initialUsers)
 
     const { data: users, refetch, isLoading, error } = useGetUsersQuery();
+    const [deleteUser, { isLoading: loadingDelete }] = useDeleteUserMutation();
     console.log(users);
 
-    const handleDeleteUser = (id) => {
-        // setUsers(users.filter(user => user.id !== id))
-        console.log(id);
+    const deleteHandler = async (id) => {
+      console.log('id is: ', id)
+        if (window.confirm("Are you sure")) {
+            try {
+                await deleteUser(id);
+                refetch();
+            } catch (err) {
+                toast.error(err?.data?.message || err.error);
+            }
+        }
     };
 
     return (
@@ -32,6 +40,7 @@ export default function UserListPage() {
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
                 <h1 className="text-3xl font-bold mb-6">Users</h1>
                 <div className="overflow-x-auto">
+                    {loadingDelete && <Loader />}
                     {isLoading ? (
                         <Loader />
                     ) : error ? (
@@ -74,7 +83,7 @@ export default function UserListPage() {
                                                     <Button
                                                         variant="outline"
                                                         size="icon"
-                                                        onClick={() => handleDeleteUser(user._id)}
+                                                        onClick={() => deleteHandler(user._id)}
                                                     >
                                                         <Trash2 className="h-4 w-4" />
                                                     </Button>
