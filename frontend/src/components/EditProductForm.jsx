@@ -1,16 +1,16 @@
 import { motion } from "framer-motion";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-// import ImageFormGroup from "./ImageFormGroup";
+import ImageFormGroup from "./ImageFormGroup";
 // import { useState } from "react";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 
-export default function EditProductForm({ productData, setProductData, onSubmit, onFileUpload, loadingProductUpdate }) {
+export default function EditProductForm({ productData, setProductData, onSubmit, onFileUpload, loadingProductUpdate, loadingImageUpload }) {
     // TODO: Implement the functionalities
 
 
-    let loadingUpload = false;
+    // let loadingUpload = false;
 
 
 
@@ -57,7 +57,7 @@ export default function EditProductForm({ productData, setProductData, onSubmit,
                     <div>
                         <Input id="imageFile" type="file" onChange={onFileUpload} className="cursor-pointer" />
                     </div>
-                    {loadingUpload && (
+                    {loadingImageUpload && (
                         <div className="flex items-center justify-center">
                             <Loader2 className="h-5 w-5 animate-spin" />
                         </div>

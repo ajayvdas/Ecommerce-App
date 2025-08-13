@@ -11,6 +11,7 @@ import WriteReviewForm from "@/components/WriteReviewForm";
 import { useGetProductDetailsQuery } from "@/slices/productsApiSlice";
 import Loader from "@/components/Loader";
 import ErrorComponent from "@/components/ErrorComponent";
+import { getImageURL } from "@/utils/helper";
 
 // Mock product data (replace with actual data fetching in a real application)
 // const product = {
@@ -40,7 +41,9 @@ export default function ProductPage() {
 
 
     const { data:product, isLoading, error } = useGetProductDetailsQuery(productId);
-    console.log(product)
+    console.log('product img is: ', getImageURL(product.image))
+    // console.log(product)
+
     // const { userInfo } = useSelector(state => state.auth)
 
     // const addToCartHandler = () => {

@@ -64,6 +64,7 @@ export default function ProductEditPage() {
             const res = await uploadProductImage(formData).unwrap();
             toast.success(res.message);
             setProductData({ ...productData, image: res.image });
+            console.log(productData)
         } catch (err) {
             toast.err(err?.data?.message || err.error);
         }
@@ -96,6 +97,7 @@ export default function ProductEditPage() {
                         onSubmit={submitHandler}
                         onFileUpload={uploadFileHandler}
                         loadingProductUpdate={loadingProductUpdate}
+                        loadingImageUpload={loadingImageUpload}
                     />
                 </>
             )}
