@@ -21,7 +21,8 @@ export default function UserListPage() {
 
     const { data: users, refetch, isLoading, error } = useGetUsersQuery();
     const [deleteUser, { isLoading: loadingDelete }] = useDeleteUserMutation();
-    console.log(users);
+
+    
 
     const deleteHandler = async (id) => {
       console.log('id is: ', id)
