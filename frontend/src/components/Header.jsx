@@ -1,23 +1,27 @@
 import { useState } from "react";
-import { Search, User, Heart, ShoppingBag, LogOutIcon, LogInIcon, Menu, X, Settings } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Link, useNavigate } from "react-router-dom";
+import {  User, Heart, ShoppingBag, LogOutIcon, LogInIcon, Menu, X, Settings } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useLogoutMutation } from "@/slices/usersApiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/slices/authSlice";
 import TooltipComponent from "./TooltipComponent";
 import StylizedHeading from "./StylizedHeading";
-import ProductCommandSearch from "./ProductCommandSearch";
+import ProductCommandSearch from "./ProductCommandSearch"; 
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isAdminDropdownOpen, setIsAdminDropdownOpen] = useState(false);
     const { userInfo } = useSelector((state) => state.auth);
+    const location = useLocation();
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [logoutApiCall] = useLogoutMutation();
+
+    // Define routes where search should be shown
+    const showSearchRoutes = ['/', '/products'];
+    const shouldShowSearch = showSearchRoutes.includes(location.pathname);
 
     const logoutHandler = async () => {
         try {
@@ -54,9 +58,11 @@ const Header = () => {
 
                         {/* Desktop Navigation */}
                         <div className="hidden lg:flex items-center space-x-6">
-                            <div className="flex-1 max-w-md">
-                                <ProductCommandSearch />
-                            </div>
+                            {shouldShowSearch && (
+                                <div className="flex-1 max-w-md">
+                                    <ProductCommandSearch />
+                                </div>
+                            )}
 
                             <div className="flex items-center space-x-4">
                                 <TooltipComponent content="Profile">
@@ -141,13 +147,13 @@ const Header = () => {
                                     </TooltipComponent>
                                 ) : (
                                     <TooltipComponent content="Login">
-                                        <button
-                                            onClick={logoutHandler}
+                                        <Link
+                                            to="/login"
                                             className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
                                             aria-label="Login"
                                         >
                                             <LogInIcon className="h-5 w-5" />
-                                        </button>
+                                        </Link>
                                     </TooltipComponent>
                                 )}
                             </div>
@@ -155,9 +161,11 @@ const Header = () => {
 
                         {/* Tablet Navigation (md to lg) */}
                         <div className="hidden md:flex lg:hidden items-center space-x-3">
-                            <div className="flex-1 max-w-xs">
-                                <ProductCommandSearch />
-                            </div>
+                            {shouldShowSearch && (
+                                <div className="flex-1 max-w-xs">
+                                    <ProductCommandSearch />
+                                </div>
+                            )}
 
                             <div className="flex items-center space-x-2">
                                 <Link
@@ -229,13 +237,13 @@ const Header = () => {
                                         <LogOutIcon className="h-4 w-4" />
                                     </button>
                                 ) : (
-                                    <button
-                                        onClick={logoutHandler}
+                                    <Link
+                                        to="/login"
                                         className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
                                         aria-label="Login"
                                     >
                                         <LogInIcon className="h-4 w-4" />
-                                    </button>
+                                    </Link>
                                 )}
                             </div>
                         </div>
@@ -265,10 +273,12 @@ const Header = () => {
                     >
                         {isMobileMenuOpen && (
                             <div className="border-t border-gray-100 pt-4 space-y-3">
-                                {/* Search bar for mobile */}
-                                <div className="px-1">
-                                    <ProductCommandSearch />
-                                </div>
+                                {/* Search bar for mobile - only show on specific routes */}
+                                {shouldShowSearch && (
+                                    <div className="px-1">
+                                        <ProductCommandSearch />
+                                    </div>
+                                )}
 
                                 {/* Mobile menu items */}
                                 <div className="flex flex-col space-y-2">
@@ -342,17 +352,15 @@ const Header = () => {
                                             <span className="text-sm font-medium">Logout</span>
                                         </button>
                                     ) : (
-                                        <button
-                                            onClick={() => {
-                                                logoutHandler();
-                                                setIsMobileMenuOpen(false);
-                                            }}
+                                        <Link
+                                            to="/login"
+                                            onClick={() => setIsMobileMenuOpen(false)}
                                             className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200 w-full text-left"
                                             aria-label="Login"
                                         >
                                             <LogInIcon className="h-5 w-5" />
                                             <span className="text-sm font-medium">Login</span>
-                                        </button>
+                                        </Link>
                                     )}
                                 </div>
                             </div>

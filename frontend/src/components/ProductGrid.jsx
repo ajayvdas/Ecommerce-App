@@ -42,7 +42,7 @@ export default function ProductGrid({ products, totalCount }) {
                                             {"★".repeat(4)}{"☆"}
                                         </div>
                                         <span className="text-gray-500">
-                                            {product.reviews || 5} Reviews
+                                            {product.reviews.length || 0} Reviews
                                         </span>
                                     </div>
 
