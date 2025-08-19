@@ -7,7 +7,7 @@ import ProductDetails from "@/components/ProductDetails";
 import AddToCartSection from "@/components/AddToCartSection";
 import ReviewsSection from "@/components/ReviewsSection";
 import WriteReviewForm from "@/components/WriteReviewForm";
-import { useCreateProductMutation, useGetProductDetailsQuery } from "@/slices/productsApiSlice";
+import { useCreateReviewMutation, useGetProductDetailsQuery } from "@/slices/productsApiSlice";
 import Loader from "@/components/Loader";
 import ErrorComponent from "@/components/ErrorComponent";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,10 +42,9 @@ export default function ProductPage() {
     const [comment, setComment] = useState("");
 
     const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId);
-    const [createReview, { isLoading: loadingProductReview }] = useCreateProductMutation();
+    const [createReview, { isLoading: loadingProductReview }] = useCreateReviewMutation();
 
     const { userInfo } = useSelector((state) => state.auth);
-    console.log(userInfo)
 
     const addToCartHandler = () => {
         dispatch(addToCart({ ...product, quantity }));
@@ -90,8 +89,6 @@ export default function ProductPage() {
                     </div>
 
                     <AddToCartSection
-                        // price={product.price}
-                        // status={product.countInstock}
                         product={product}
                         quantity={quantity}
                         setQuantity={setQuantity}
