@@ -74,7 +74,11 @@ export default function ProductPage() {
             {isLoading ? (
                 <Loader />
             ) : error ? (
-                <ErrorComponent />
+                <ErrorComponent 
+                    title='Error loading products'
+                    description={error?.data?.message || error.error}
+
+                />
             ) : product ? (
                 <div className="container mx-auto px-4 py-24 lg:px-8 lg:py-16 max-w-screen-lg">
                     <Link to="/">

@@ -5,6 +5,7 @@ import ImageCarousal from "@/components/ImageCarousal";
 // import ProductBanner from "@/components/ProductBanner";
 // import ProductCarousel from "@/components/ProductCarousel";
 import ProductCarouselImg from "@/components/ProductCarouselImg";
+import ShopByCategory from "@/components/ShopByCategory";
 import ViewAllProductsButton from "@/components/ViewAllProducts";
 import { useSelector } from "react-redux";
 
@@ -23,6 +24,7 @@ const HomePage = () => {
                 {/* <ProductCarousel /> */}
                 <ProductCarouselImg />
                 <ViewAllProductsButton userInfo={userInfo} />
+                <ShopByCategory />
             </div>
         </>
     );

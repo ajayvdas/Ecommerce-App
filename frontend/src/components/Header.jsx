@@ -7,6 +7,7 @@ import { logout } from "@/slices/authSlice";
 import TooltipComponent from "./TooltipComponent";
 import StylizedHeading from "./StylizedHeading";
 import ProductCommandSearch from "./ProductCommandSearch"; 
+import { resetCart } from '../slices/cartSlice'
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -29,6 +30,7 @@ const Header = () => {
             dispatch(logout());
             // NOTE: here we need to reset cart state for when a user logs out so the next
             // user doesn't inherit the previous users cart and shipping
+            dispatch(resetCart())
             navigate("/login");
         } catch (error) {
             console.log(error);
