@@ -1,34 +1,34 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 
-const ShopByCategory = () => {
-  const categories = [
-    {
-      title: "Men's Collection",
-      description: "Discover our latest men's fashion",
-      image: "/mens-fashion-category.jpg",
-      bgColor: "bg-blue-600",
-    },
-    {
-      title: "Women's Collection",
-      description: "Explore trendy women's styles",
-      image: "/womens-fashion-category.jpg",
-      bgColor: "bg-pink-600",
-    },
-    {
-      title: "Accessories",
-      description: "Complete your look with accessories",
-      image: "/accessories-category.jpg",
-      bgColor: "bg-purple-600",
-    },
-  ]
+const categories = [
+  {
+    title: "Men's Collection",
+    description: "Discover our latest men's fashion",
+    image: "/placeholder.svg?height=300&width=400&text=Men's+Fashion",
+    bgColor: "bg-blue-600",
+  },
+  {
+    title: "Women's Collection",
+    description: "Explore trendy women's styles",
+    image: "/placeholder.svg?height=300&width=400&text=Women's+Fashion",
+    bgColor: "bg-pink-600",
+  },
+  {
+    title: "Accessories",
+    description: "Complete your look with accessories",
+    image: "/placeholder.svg?height=300&width=400&text=Accessories",
+    bgColor: "bg-purple-600",
+  },
+]
 
+export default function ShopByCategory() {
   return (
-    <section className="py-16 px-4 bg-white mt-6">
+    <section className="py-16 px-4 bg-background">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Shop by Category</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold text-foreground mb-4">Shop by Category</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
             Explore our curated collections designed for every style and occasion
           </p>
         </div>
@@ -58,7 +58,3 @@ const ShopByCategory = () => {
     </section>
   )
 }
-
-export default ShopByCategory
-
-

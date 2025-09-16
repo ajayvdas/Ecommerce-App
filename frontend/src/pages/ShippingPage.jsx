@@ -41,7 +41,6 @@ export default function ShippingPage() {
 
     return (
         <div className="container mx-auto px-4 py-24 lg:px-8 lg:py-16 max-w-screen-md">
-            <MultiStepIndicator currentStep={1} />
 
             <motion.h1
                 className="text-3xl font-bold mb-8 mt-8"
@@ -52,6 +51,8 @@ export default function ShippingPage() {
                 Shipping
             </motion.h1>
 
+            <MultiStepIndicator currentStep={1} />
+            
             <ShippingForm
                 formData={formData}
                 handleInputChange={handleInputChange}

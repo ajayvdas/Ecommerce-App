@@ -49,7 +49,7 @@ export default function ProductPage() {
     const addToCartHandler = () => {
         dispatch(addToCart({ ...product, quantity }));
 
-        navigate("/");
+        navigate("/cart");
     };
 
     const submitHandler = async (e) => {

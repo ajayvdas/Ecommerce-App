@@ -1,33 +1,29 @@
-// banner
-// featured products
-
-import ImageCarousal from "@/components/ImageCarousal";
-// import ProductBanner from "@/components/ProductBanner";
-// import ProductCarousel from "@/components/ProductCarousel";
+import HeroSection from "@/components/HeroSection";
+import TrendingSection from "@/components/TrendingSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+// import NewsletterSection from "@/components/NewsletterSection";
+import BrandShowcase from "@/components/BrandShowcase";
 import ProductCarouselImg from "@/components/ProductCarouselImg";
-import ShopByCategory from "@/components/ShopByCategory";
 import ViewAllProductsButton from "@/components/ViewAllProducts";
+import ShopByCategory from "@/components/ShopByCategory";
 import { useSelector } from "react-redux";
 
-const HomePage = () => {
-    const { userInfo } = useSelector((state) => state.auth);
-    // const cart = useSelector(state => state.cart)
-    // console.table(cart)
-
+export default function HomePage() {
+    const { userInfo } = useSelector(state => state.auth)
     return (
-        <>
-            {/* BANNER */}
-            {/* <ProductBanner /> */}
-            <ImageCarousal />
-            {/* featured products */}
-            <div className="flex flex-col items-center justify-center mb-8">
-                {/* <ProductCarousel /> */}
+        <div>
+            <HeroSection />
+            <div className="bg-background">
                 <ProductCarouselImg />
-                <ViewAllProductsButton userInfo={userInfo} />
+                <div className="flex flex-col items-center justify-center py-8">
+                    <ViewAllProductsButton userInfo={userInfo} />
+                </div>
                 <ShopByCategory />
             </div>
-        </>
+            <TrendingSection />
+            <TestimonialsSection />
+            <BrandShowcase />
+            {/* <NewsletterSection /> */}
+        </div>
     );
-};
-
-export default HomePage;
+}
