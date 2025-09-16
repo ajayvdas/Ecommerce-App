@@ -69,7 +69,7 @@ const Header = () => {
                             <div className="flex items-center space-x-4">
                                 <TooltipComponent content="Profile">
                                     <Link
-                                        to="/register"
+                                        to="/profile"
                                         className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
                                     >
                                         <User className="h-5 w-5" />
@@ -171,7 +171,7 @@ const Header = () => {
 
                             <div className="flex items-center space-x-2">
                                 <Link
-                                    to="/register"
+                                    to="/profile"
                                     className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
                                 >
                                     <User className="h-4 w-4" />
@@ -285,7 +285,7 @@ const Header = () => {
                                 {/* Mobile menu items */}
                                 <div className="flex flex-col space-y-2">
                                     <Link
-                                        to="/register"
+                                        to="/profile"
                                         className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >

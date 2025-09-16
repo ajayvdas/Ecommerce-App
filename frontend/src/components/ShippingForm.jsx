@@ -41,10 +41,10 @@ function ShippingForm({ formData, handleInputChange, handleCountryChange, handle
                         <SelectValue placeholder="Select a country" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="us">United States</SelectItem>
-                        <SelectItem value="ca">Canada</SelectItem>
-                        <SelectItem value="uk">United Kingdom</SelectItem>
-                        <SelectItem value="au">Australia</SelectItem>
+                        <SelectItem value="United States">United States</SelectItem>
+                        <SelectItem value="Canada">Canada</SelectItem>
+                        <SelectItem value="United Kingdom">United Kingdom</SelectItem>
+                        <SelectItem value="Australia">Australia</SelectItem>
                     </SelectContent>
                 </Select>
             </div>

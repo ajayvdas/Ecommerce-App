@@ -34,6 +34,8 @@ const fadeIn = {
 };
 
 const ProfileScreen = () => {
+  const dispatch = useDispatch();
+  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,7 +44,6 @@ const ProfileScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
   const [updateProfile, { isLoading: loadingUpdateProfile }] = useProfileMutation();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setName(userInfo.name);

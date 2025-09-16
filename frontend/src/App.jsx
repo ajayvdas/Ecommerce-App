@@ -26,7 +26,7 @@ import UserEditPage from "./pages/admin/UserEditPage";
 
 function App() {
     return (
-        <div className="bg-gradient-to-br from-slate-50 via-purple-50 to-blue-50">
+        <>
             <Header />
             <main className="flex flex-col min-h-screen pt-14 sm:pt-16">
                 <Routes>
@@ -58,7 +58,7 @@ function App() {
 
             <Footer />
             <ToastContainer />
-        </div>
+        </>
     );
 }
 

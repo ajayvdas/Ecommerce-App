@@ -4,22 +4,28 @@ import { motion } from "framer-motion";
 
 import MultiStepIndicator from "@/components/MultiStepIndicator";
 import ShippingForm from "@/components/ShippingForm";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveShippingAddress } from "@/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 
 // const steps = ["Sign In", "Shipping", "Payment", "Place Order"];
 
 export default function ShippingPage() {
-    const [formData, setFormData] = useState({
-        address: "",
-        city: "",
-        postalCode: "",
-        country: "",
-    });
-
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const cart = useSelector ((state) => state.cart)
+    const { shippingAddress } = cart;
+
+    const [formData, setFormData] = useState({
+        address: shippingAddress.address || "",
+        city: shippingAddress.city || "",
+        postalCode: shippingAddress.postalCode || "",
+        country: shippingAddress || "",
+    });
+
+
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -32,8 +38,8 @@ export default function ShippingPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Form submitted:", formData);
-        // Here you would typically send the data to your backend or state management system
+        // console.log("Form submitted:", formData);
+        
         dispatch(saveShippingAddress({...formData}))
         navigate("/payment")
         
@@ -52,7 +58,7 @@ export default function ShippingPage() {
             </motion.h1>
 
             <MultiStepIndicator currentStep={1} />
-            
+
             <ShippingForm
                 formData={formData}
                 handleInputChange={handleInputChange}

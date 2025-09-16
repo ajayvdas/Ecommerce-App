@@ -20,9 +20,10 @@ import { useEffect } from "react";
 
 export default function OrderPage() {
     const { id: orderId } = useParams();
+
     const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId);
 
-    const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation(orderId);
+    const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
     const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
 
@@ -31,6 +32,15 @@ export default function OrderPage() {
     const { data: paypal, isLoading: loadingPayPal, error: errorPayPal } = useGetPayPalClientIdQuery();
 
     const { userInfo } = useSelector((state) => state.auth);
+
+    console.log("PayPal Debug:", {
+        isPending,
+        loadingPay,
+        orderPaid: order?.isPaid,
+        hasClientId: !!paypal?.clientId,
+        errorPayPal,
+        loadingPayPal,
+    });
 
     useEffect(() => {
         if (!errorPayPal && !loadingPayPal && paypal.clientId) {
@@ -45,9 +55,10 @@ export default function OrderPage() {
                 paypalDispatch({ type: "setLoadingStatus", value: "pending" });
             };
             if (order && !order.isPaid) {
-                if (!window.paypal) {
-                    loadPaypalScript();
-                }
+                // if (!window.paypal) {
+                //     loadPaypalScript();
+                // }
+                loadPaypalScript();
             }
         }
     }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch]);
@@ -100,26 +111,20 @@ export default function OrderPage() {
         }
     };
 
-    // Loading state
     if (isLoading) {
         return <Loader />;
     }
 
-    // Error state
-    // if (error) {
-    //   return <div className="text-red-500 py-8 text-center">Error loading order: {error.message || "Unknown error"}</div>;
-    // }
+    if (!order) {
+        return <div className="text-red-500 py-8 text-center">Order not found.</div>;
+    }
+
     if (error)
         return (
             <div className="m-4 mx-auto min-w-16">
                 <Error message={error.message} />
             </div>
         );
-
-    // Ensure order data is defined
-    if (!order) {
-        return <div className="text-red-500 py-8 text-center">Order not found.</div>;
-    }
 
     return (
         <div className="container mx-auto px-4 py-8 lg:px-8 lg:py-16 max-w-screen-lg">
@@ -176,7 +181,7 @@ export default function OrderPage() {
                     </CardHeader>
                     <CardContent>
                         {order.orderItems.map((item) => (
-                            <div key={item.id} className="flex items-center space-x-4 mb-4">
+                            <div key={item._id} className="flex items-center space-x-4 mb-4">
                                 <img src={item.image} alt={item.name} width={80} height={80} className="rounded-md" />
                                 <div className="flex-1">
                                     <h3 className="font-semibold">{item.name}</h3>
@@ -222,7 +227,7 @@ export default function OrderPage() {
                                         <Loader />
                                     ) : (
                                         <div className="mt-6 space-y-4">
-                                            <Button
+                                            {/* <Button
                                                 onClick={onApproveTest}
                                                 className="w-full bg-[#FFC439] hover:bg-[#F2B829] text-black"
                                             >
@@ -234,7 +239,7 @@ export default function OrderPage() {
                                                     className="mr-2"
                                                 />
                                                 Test Pay Order
-                                            </Button>
+                                            </Button> */}
                                             {/* <Button className="w-full">
                                                 <CreditCard className="mr-2 h-4 w-4" />
                                                 Pay with Debit/Credit Card

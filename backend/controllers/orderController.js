@@ -45,6 +45,10 @@ const addOrderItems = asyncHandler(async (req, res) => {
 // @access Private
 const getMyOrders = asyncHandler(async(req, res) => {
     const orders = await Order.find({ user: req.user._id })
+
+    if (!orders || orders.length === 0){
+        return res.status(404).json({ message: 'No orders found for this user.' })
+    }
     res.status(200).json(orders)
 })
 
@@ -65,9 +69,9 @@ const getOrderById = asyncHandler(async (req, res) => {
     }
   });
 
-// @desc update Order to paid
+// @desc update order to paid
 // @route PUT /api/orders/:id/pay
-// @access Private/Admin
+// @access Private
 const updateOrderToPaid = asyncHandler(async(req, res) => {
     const order = await Order.findById(req.params.id)
 
@@ -81,8 +85,8 @@ const updateOrderToPaid = asyncHandler(async(req, res) => {
             email_address: req.body.email_address
         }
 
-        const updateOrder = await order.save()
-        res.status(200).json(updateOrder)
+        const updatedOrder = await order.save()
+        res.status(200).json(updatedOrder)
     } else {
         res.status(404)
         throw new Error('Order not found.')

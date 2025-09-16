@@ -36,6 +36,8 @@ import Error from "@/components/Error";
 
 export default function PlaceOrderPage() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const cart = useSelector((state) => state.cart);
 
     const [createOrder, { isLoading, error }] = useCreateOrderMutation();
@@ -48,7 +50,6 @@ export default function PlaceOrderPage() {
         }
     }, [cart.paymentMethod, cart.shippingAddress.address, navigate]);
 
-    const dispatch = useDispatch();
 
     const placeOrderHandler = async () => {
         try {
@@ -68,7 +69,6 @@ export default function PlaceOrderPage() {
         }
     };
 
-    // Loading state
     if (isLoading) {
         return <Loader />;
     }
