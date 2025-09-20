@@ -3,6 +3,11 @@ import { Heart, ShoppingCart, Trash2, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useSelector, useDispatch } from "react-redux";
+import { useGetWishlistQuery, useRemoveFromWishlistMutation } from "@/slices/wishlistApiSlice";
+import { addToCart } from "@/slices/cartSlice";
+import { toast } from "react-toastify";
+import Loader from "@/components/Loader";
 
 // interface WishlistItem {
 //   id: string
@@ -83,11 +88,44 @@ const mockWishlistItems = [
 ];
 
 export default function WishlistPage() {
-    const [wishlistItems, setWishlistItems] = useState(mockWishlistItems);
+    const dispatch = useDispatch();
+    const { userInfo } = useSelector((state) => state.auth);
+    
+    const { data: wishlistItems, isLoading, error } = useGetWishlistQuery(undefined, {
+        skip: !userInfo,
+    });
+    
+    const [removeFromWishlist, { isLoading: isRemoving }] = useRemoveFromWishlistMutation();
 
-    const removeFromWishlist = (id) => {
-        setWishlistItems((items) => items.filter((item) => item.id !== id));
+    const handleRemoveFromWishlist = async (productId) => {
+        try {
+            await removeFromWishlist(productId).unwrap();
+            toast.success('Product removed from wishlist');
+        } catch (error) {
+            console.error('Failed to remove from wishlist:', error);
+            toast.error('Failed to remove from wishlist');
+        }
     };
+
+    const handleAddToCart = (product) => {
+        dispatch(addToCart({ ...product, quantity: 1 }));
+        toast.success('Product added to cart');
+    };
+
+    if (isLoading) {
+        return <Loader />;
+    }
+
+    if (error) {
+        return (
+            <div className="container mx-auto px-4 py-8">
+                <div className="text-center">
+                    <h2 className="text-2xl font-bold text-red-600 mb-4">Error loading wishlist</h2>
+                    <p className="text-gray-600">Please try again later.</p>
+                </div>
+            </div>
+        );
+    }
 
     const EmptyWishlist = () => (
         <div className="flex flex-col items-center justify-center py-16 px-4">
@@ -109,11 +147,11 @@ export default function WishlistPage() {
                 <div className="mb-8">
                     <h2 className="text-3xl font-bold mb-2 text-balance">My Wishlist</h2>
                     <p className="text-muted-foreground text-pretty">
-                        {wishlistItems.length} {wishlistItems.length === 1 ? "item" : "items"} saved for later
+                        {wishlistItems?.length || 0} {(wishlistItems?.length || 0) === 1 ? "item" : "items"} saved for later
                     </p>
                 </div>
 
-                {wishlistItems.length === 0 ? (
+                {!wishlistItems || wishlistItems.length === 0 ? (
                     <EmptyWishlist />
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -140,7 +178,8 @@ export default function WishlistPage() {
                                         variant="ghost"
                                         size="icon"
                                         className="absolute top-2 right-2 bg-background/80 hover:bg-background"
-                                        onClick={() => removeFromWishlist(item.id)}
+                                        onClick={() => handleRemoveFromWishlist(item._id)}
+                                        disabled={isRemoving}
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </Button>
@@ -170,9 +209,13 @@ export default function WishlistPage() {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Button className="w-full bg-primary hover:bg-primary/90" disabled={!item.inStock}>
+                                        <Button 
+                                            className="w-full bg-primary hover:bg-primary/90" 
+                                            disabled={!item.countInStock || item.countInStock === 0}
+                                            onClick={() => handleAddToCart(item)}
+                                        >
                                             <ShoppingCart className="w-4 h-4 mr-2" />
-                                            {item.inStock ? "Add to Cart" : "Notify When Available"}
+                                            {item.countInStock > 0 ? "Add to Cart" : "Out of Stock"}
                                         </Button>
                                     </div>
                                 </CardContent>

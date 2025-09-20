@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useLogoutMutation } from "@/slices/usersApiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/slices/authSlice";
+import { useGetWishlistQuery } from "@/slices/wishlistApiSlice";
 import TooltipComponent from "./TooltipComponent";
 import StylizedHeading from "./StylizedHeading";
 import ProductCommandSearch from "./ProductCommandSearch";
@@ -13,12 +14,19 @@ const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isAdminDropdownOpen, setIsAdminDropdownOpen] = useState(false);
     const { userInfo } = useSelector((state) => state.auth);
+    const cart = useSelector((state) => state.cart);
     const location = useLocation();
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [logoutApiCall] = useLogoutMutation();
+    const { data: wishlistData } = useGetWishlistQuery(undefined, {
+        skip: !userInfo,
+    });
+
+    const cartItemsCount = cart.cartItems?.length || 0;
+    const wishlistItemsCount = wishlistData?.length || 0;
 
     // Define routes where search should be shown
     const showSearchRoutes = ["/", "/products"];
@@ -79,19 +87,29 @@ const Header = () => {
                                 <TooltipComponent content="Liked Products">
                                     <Link
                                         to="/wishlist"
-                                        className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
+                                        className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
                                         aria-label="Wishlist"
                                     >
                                         <Heart className="h-5 w-5" />
+                                        {wishlistItemsCount > 0 && (
+                                            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                                                {wishlistItemsCount > 99 ? '99+' : wishlistItemsCount}
+                                            </span>
+                                        )}
                                     </Link>
                                 </TooltipComponent>
 
                                 <TooltipComponent content="Cart">
                                     <Link
                                         to="/cart"
-                                        className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
+                                        className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
                                     >
                                         <ShoppingBag className="h-5 w-5" />
+                                        {cartItemsCount > 0 && (
+                                            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                                                {cartItemsCount > 99 ? '99+' : cartItemsCount}
+                                            </span>
+                                        )}
                                     </Link>
                                 </TooltipComponent>
 
@@ -179,16 +197,26 @@ const Header = () => {
                                 </Link>
                                 <Link
                                     to="/wishlist"
-                                    className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
+                                    className="relative p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
                                     aria-label="Wishlist"
                                 >
                                     <Heart className="h-4 w-4" />
+                                    {wishlistItemsCount > 0 && (
+                                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
+                                            {wishlistItemsCount > 9 ? '9+' : wishlistItemsCount}
+                                        </span>
+                                    )}
                                 </Link>
                                 <Link
                                     to="/cart"
-                                    className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
+                                    className="relative p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
                                 >
                                     <ShoppingBag className="h-4 w-4" />
+                                    {cartItemsCount > 0 && (
+                                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
+                                            {cartItemsCount > 9 ? '9+' : cartItemsCount}
+                                        </span>
+                                    )}
                                 </Link>
 
                                 {/* Admin Dropdown for Tablet */}
@@ -255,8 +283,21 @@ const Header = () => {
                         {/* Mobile Navigation Toggle */}
                         <div className="md:hidden flex items-center space-x-2">
                             <div className="flex items-center space-x-1">
-                                <Link to="/cart" className="p-2 text-gray-600 hover:text-gray-900 rounded-md">
+                                <Link to="/wishlist" className="relative p-2 text-gray-600 hover:text-gray-900 rounded-md">
+                                    <Heart className="h-5 w-5" />
+                                    {wishlistItemsCount > 0 && (
+                                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
+                                            {wishlistItemsCount > 9 ? '9+' : wishlistItemsCount}
+                                        </span>
+                                    )}
+                                </Link>
+                                <Link to="/cart" className="relative p-2 text-gray-600 hover:text-gray-900 rounded-md">
                                     <ShoppingBag className="h-5 w-5" />
+                                    {cartItemsCount > 0 && (
+                                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
+                                            {cartItemsCount > 9 ? '9+' : cartItemsCount}
+                                        </span>
+                                    )}
                                 </Link>
                                 <button
                                     onClick={toggleMobileMenu}

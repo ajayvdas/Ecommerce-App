@@ -6,28 +6,28 @@ import { cn } from "@/lib/utils"
 const heroSlides = [
   {
     id: 1,
-    title: "Spring Collection 2024",
-    subtitle: "Discover the latest trends",
+    title: "INDULGE YOURSELF WITH THE FINEST OUTFITS",
+    subtitle: "ARTISAN FABRIC",
     description:
-      "Elevate your style with our curated spring collection featuring vibrant colors and contemporary designs.",
+      "Discover our premium collection of handcrafted garments made from the finest materials. Experience luxury fashion that defines your unique style.",
     image: "/spring-fashion-collection-models-wearing-colorful-.jpg",
-    cta: "Shop Spring Collection",
+    cta: "See Collection →",
   },
   {
     id: 2,
-    title: "Premium Denim",
-    subtitle: "Crafted for comfort",
-    description: "Experience the perfect blend of style and comfort with our premium denim collection.",
+    title: "PREMIUM DENIM COLLECTION",
+    subtitle: "CRAFTED FOR COMFORT",
+    description: "Experience the perfect blend of style and comfort with our premium denim collection designed for the modern lifestyle.",
     image: "/premium-denim-jeans-fashion-models-urban-style.jpg",
-    cta: "Explore Denim",
+    cta: "Explore Denim →",
   },
   {
     id: 3,
-    title: "Sustainable Fashion",
-    subtitle: "Style with purpose",
-    description: "Join the sustainable fashion movement with our eco-friendly collection made from organic materials.",
+    title: "SUSTAINABLE FASHION MOVEMENT",
+    subtitle: "STYLE WITH PURPOSE",
+    description: "Join the sustainable fashion movement with our eco-friendly collection made from organic materials and ethical practices.",
     image: "/sustainable-eco-friendly-fashion-organic-clothing-.jpg",
-    cta: "Shop Sustainable",
+    cta: "Shop Sustainable →",
   },
 ]
 
@@ -57,7 +57,7 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative h-[70vh] min-h-[500px] overflow-hidden bg-card">
+    <section className="relative h-[80vh] min-h-[600px] overflow-hidden bg-card">
       {/* Background Images */}
       <div className="absolute inset-0">
         {heroSlides.map((slide, index) => (
@@ -69,7 +69,7 @@ export default function HeroSection() {
             )}
           >
             <img src={slide.image || "/placeholder.svg"} alt={slide.title} className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/30" />
           </div>
         ))}
       </div>
@@ -77,22 +77,21 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative z-10 h-full flex items-center">
         <div className="container mx-auto px-4 lg:pl-16">
-          <div className="max-w-2xl text-white">
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <p className="text-accent font-medium text-lg tracking-wide">{heroSlides[currentSlide].subtitle}</p>
-                <h1 className="text-5xl md:text-6xl font-bold leading-tight text-balance">
+          <div className="max-w-3xl text-white">
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <p className="text-white/80 font-medium text-lg tracking-widest uppercase">{heroSlides[currentSlide].subtitle}</p>
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight text-balance">
                   {heroSlides[currentSlide].title}
                 </h1>
               </div>
-              <p className="text-xl text-white/90 leading-relaxed text-pretty">
+              <p className="text-lg text-white/90 leading-relaxed text-pretty max-w-2xl">
                 {heroSlides[currentSlide].description}
               </p>
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
+                className="bg-white text-black hover:bg-white/90 px-8 py-4 text-lg font-semibold rounded-none shadow-lg hover:shadow-xl transition-all duration-300 group border-2 border-white"
               >
-                <ShoppingBag className="w-5 h-5 mr-2" />
                 {heroSlides[currentSlide].cta}
               </Button>
             </div>
