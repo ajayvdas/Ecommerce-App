@@ -43,7 +43,13 @@ const trendingProducts = [
   },
 ]
 
-export default function TrendingSection() {
+export default function TrendingSection(
+  {
+    onAddToWishlist,
+    isAdding,
+    onAddToCart
+  }
+) {
   return (
     <section className="py-16 bg-muted">
       <div className="container mx-auto px-4">
@@ -84,11 +90,16 @@ export default function TrendingSection() {
                   {/* Hover Actions */}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300">
                     <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 space-y-2">
-                      <Button size="sm" className="w-full bg-primary hover:bg-primary/90">
+                      <Button onClick={() => onAddToCart({...product}, 1)} size="sm" className="w-full bg-primary hover:bg-primary/90">
                         <ShoppingCart className="w-4 h-4 mr-2" />
                         Add to Cart
                       </Button>
-                      <Button size="sm" variant="outline" className="w-full bg-white/90 hover:bg-white">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="w-full bg-white/90 hover:bg-white"
+                        onClick={onAddToWishlist}
+                      >
                         <Heart className="w-4 h-4 mr-2" />
                         Wishlist
                       </Button>

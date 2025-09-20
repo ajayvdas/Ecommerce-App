@@ -1,13 +1,13 @@
 import { useState } from "react";
-import {  User, Heart, ShoppingBag, LogOutIcon, LogInIcon, Menu, X, Settings } from "lucide-react";
+import { User, Heart, ShoppingBag, LogOutIcon, LogInIcon, Menu, X, Settings } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useLogoutMutation } from "@/slices/usersApiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/slices/authSlice";
 import TooltipComponent from "./TooltipComponent";
 import StylizedHeading from "./StylizedHeading";
-import ProductCommandSearch from "./ProductCommandSearch"; 
-import { resetCart } from '../slices/cartSlice'
+import ProductCommandSearch from "./ProductCommandSearch";
+import { resetCart } from "../slices/cartSlice";
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -21,7 +21,7 @@ const Header = () => {
     const [logoutApiCall] = useLogoutMutation();
 
     // Define routes where search should be shown
-    const showSearchRoutes = ['/', '/products'];
+    const showSearchRoutes = ["/", "/products"];
     const shouldShowSearch = showSearchRoutes.includes(location.pathname);
 
     const logoutHandler = async () => {
@@ -30,7 +30,7 @@ const Header = () => {
             dispatch(logout());
             // NOTE: here we need to reset cart state for when a user logs out so the next
             // user doesn't inherit the previous users cart and shipping
-            dispatch(resetCart())
+            dispatch(resetCart());
             navigate("/login");
         } catch (error) {
             console.log(error);
@@ -77,12 +77,13 @@ const Header = () => {
                                 </TooltipComponent>
 
                                 <TooltipComponent content="Liked Products">
-                                    <button
+                                    <Link
+                                        to="/wishlist"
                                         className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
                                         aria-label="Wishlist"
                                     >
                                         <Heart className="h-5 w-5" />
-                                    </button>
+                                    </Link>
                                 </TooltipComponent>
 
                                 <TooltipComponent content="Cart">
@@ -106,7 +107,7 @@ const Header = () => {
                                                 <Settings className="h-5 w-5" />
                                             </button>
                                         </TooltipComponent>
-                                        
+
                                         {isAdminDropdownOpen && (
                                             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
                                                 <div className="py-1">
@@ -176,12 +177,13 @@ const Header = () => {
                                 >
                                     <User className="h-4 w-4" />
                                 </Link>
-                                <button
+                                <Link
+                                    to="/wishlist"
                                     className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
                                     aria-label="Wishlist"
                                 >
                                     <Heart className="h-4 w-4" />
-                                </button>
+                                </Link>
                                 <Link
                                     to="/cart"
                                     className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
@@ -199,7 +201,7 @@ const Header = () => {
                                         >
                                             <Settings className="h-4 w-4" />
                                         </button>
-                                        
+
                                         {isAdminDropdownOpen && (
                                             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
                                                 <div className="py-1">
@@ -293,14 +295,15 @@ const Header = () => {
                                         <span className="text-sm font-medium">Profile</span>
                                     </Link>
 
-                                    <button
+                                    <Link
+                                        to="/wishlist"
                                         className="flex items-center space-x-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200 w-full text-left"
                                         aria-label="Wishlist"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         <Heart className="h-5 w-5" />
                                         <span className="text-sm font-medium">Wishlist</span>
-                                    </button>
+                                    </Link>
 
                                     {/* Admin Links for Mobile */}
                                     {userInfo && userInfo.isAdmin && (
@@ -309,7 +312,9 @@ const Header = () => {
                                                 <div className="border-t border-gray-200"></div>
                                             </div>
                                             <div className="px-3">
-                                                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Admin</span>
+                                                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                                    Admin
+                                                </span>
                                             </div>
                                             <Link
                                                 to="/admin/productlist"

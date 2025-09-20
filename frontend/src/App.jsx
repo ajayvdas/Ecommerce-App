@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import Header from "./components/Header";
-import { Footer } from "./components/Footer";
-// import PlaceOrderPage from "./pages/PlaceOrderPage"
+import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
 import ShoppingCartPage from "./pages/ShoppingCartPage";
@@ -15,14 +15,15 @@ import OrderListPage from "./pages/admin/OrderListPage";
 import UserListPage from "./pages/admin/UserListPage";
 import ProductListPage from "./pages/admin/AdminProductListPage";
 import ProductsPage from "./pages/ProductsPage";
-// import ProductsPage from "./pages/ProductsPage-V2"
-import { ToastContainer } from "react-toastify";
 import PaymentPage from "./pages/PaymentPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
 import OrderPage from "./pages/OrderPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProductEditPage from "./pages/admin/ProductEditPage";
 import UserEditPage from "./pages/admin/UserEditPage";
+import WishlistPage from "./pages/WishlistPage";
+
+
 
 function App() {
     return (
@@ -44,6 +45,7 @@ function App() {
                         <Route path="/placeorder" element={<PlaceOrderPage />} />
                         <Route path="/order/:id" element={<OrderPage />} />
                         <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/wishlist" element={<WishlistPage />} />
                     </Route>
                     {/* Admin Users */}
                     <Route path="" element={<AdminRoute />}>

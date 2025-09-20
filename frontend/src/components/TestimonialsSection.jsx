@@ -64,11 +64,11 @@ export default function TestimonialsSection() {
   }
 
   return (
-    <section className="py-16 bg-[#F5EFE6]">
+    <section className="py-16 bg-[#fefce8]/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-foreground mb-4">What Our Customers Say</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
+          <h2 className="text-4xl font-bold text-[#374151] mb-4">What Our Customers Say</h2>
+          <p className="text-lg text-[#374151] max-w-2xl mx-auto text-pretty">
             Don't just take our word for it - hear from our satisfied customers
           </p>
         </div>
@@ -81,17 +81,17 @@ export default function TestimonialsSection() {
             >
               {testimonials.map((testimonial) => (
                 <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
-                  <Card className="border-none bg-[#E8DFCA] shadow-lg">
+                  <Card className="border-none bg-[#fefce8] shadow-lg">
                     <CardContent className="p-8 text-center">
-                      <Quote className="w-12 h-12 text-primary mx-auto mb-6" />
+                      <Quote className="w-12 h-12 text-[#d97706] mx-auto mb-6" />
 
-                      <blockquote className="text-xl text-card-foreground mb-6 leading-relaxed text-pretty">
+                      <blockquote className="text-xl text-[#374151] mb-6 leading-relaxed text-pretty">
                         "{testimonial.content}"
                       </blockquote>
 
                       <div className="flex justify-center mb-4">
                         {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star key={i} className="w-5 h-5 fill-primary text-primary" />
+                          <Star key={i} className="w-5 h-5 fill-[#d97706] text-[#d97706]" />
                         ))}
                       </div>
 
@@ -102,8 +102,8 @@ export default function TestimonialsSection() {
                           className="w-16 h-16 rounded-full object-cover"
                         />
                         <div className="text-left">
-                          <h4 className="font-semibold text-card-foreground text-lg">{testimonial.name}</h4>
-                          <p className="text-muted-foreground">{testimonial.role}</p>
+                          <h4 className="font-semibold text-[#374151] text-lg">{testimonial.name}</h4>
+                          <p className="text-[#374151]">{testimonial.role}</p>
                         </div>
                       </div>
                     </CardContent>
@@ -117,7 +117,7 @@ export default function TestimonialsSection() {
           <Button
             variant="outline"
             size="icon"
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-[#E8DFCA] border border-[#E8DFCA] hover:bg-[#F5EFE6]"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-[#ffffff] hover:bg-[#fefce8]"
             onClick={goToPrev}
           >
             <ChevronLeft className="h-5 w-5" />
@@ -126,7 +126,7 @@ export default function TestimonialsSection() {
           <Button
             variant="outline"
             size="icon"
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-[#E8DFCA] border border-[#E8DFCA] hover:bg-[#F5EFE6]"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-[#ffffff] hover:bg-[#fefce8]"
             onClick={goToNext}
           >
             <ChevronRight className="h-5 w-5" />
@@ -139,7 +139,7 @@ export default function TestimonialsSection() {
                 key={index}
                 className={cn(
                   "w-3 h-3 rounded-full transition-all duration-300",
-                  index === currentIndex ? "bg-primary scale-125" : "bg-border hover:bg-muted-foreground/50",
+                  index === currentIndex ? "bg-[#d97706] scale-125" : "bg-[#d97706] hover:bg-[#374151]/50",
                 )}
                 onClick={() => setCurrentIndex(index)}
               />

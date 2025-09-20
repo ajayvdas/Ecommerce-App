@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Classic White Tee",
+    "image": "/images/classic-white-tee.jpg",
+    "description": "A timeless classic white t-shirt made from 100% cotton. Perfect for everyday wear with a comfortable fit and breathable fabric. Essential wardrobe staple that pairs well with any outfit.",
+    "brand": "BasicWear",
+    "category": "Clothing",
+    "price": 29.99,
+    "countInStock": 25,
+    "rating": 4.2,
+    "numReviews": 18
+  },
+  {
+    "name": "Denim Jeans",
+    "image": "/images/denim-jeans.jpg",
+    "description": "Premium quality denim jeans with a modern slim fit. Features reinforced stitching, classic five-pocket design, and comfortable stretch fabric for all-day wear.",
+    "brand": "DenimCo",
+    "category": "Clothing",
+    "price": 59.99,
+    "countInStock": 15,
+    "rating": 4.4,
+    "numReviews": 22
+  },
+  {
+    "name": "Leather Jacket",
+    "image": "/images/leather-jacket.jpg",
+    "description": "Genuine leather jacket with a sleek design and premium finish. Features multiple pockets, full zip closure, and soft inner lining for comfort and style.",
+    "brand": "LeatherLux",
+    "category": "Clothing",
+    "price": 199.99,
+    "countInStock": 8,
+    "rating": 4.7,
+    "numReviews": 14
+  },
+  {
+    "name": "Summer Dress",
+    "image": "/images/summer-dress.jpg",
+    "description": "Lightweight and breezy summer dress perfect for warm weather. Features floral print, adjustable straps, and flowing silhouette for comfort and elegance.",
+    "brand": "SunnyDays",
+    "category": "Clothing",
+    "price": 49.99,
+    "countInStock": 20,
+    "rating": 4.3,
+    "numReviews": 16
+  },
+  {
+    "name": "Running Shoes",
+    "image": "/images/running-shoes.jpg",
+    "description": "High-performance running shoes with advanced cushioning technology. Features breathable mesh upper, responsive midsole, and durable rubber outsole for optimal comfort.",
+    "brand": "SportMax",
+    "category": "Footwear",
+    "price": 89.99,
+    "countInStock": 12,
+    "rating": 4.6,
+    "numReviews": 28
+  },
+  {
+    "name": "Cozy Sweater",
+    "image": "/images/cozy-sweater.jpg",
+    "description": "Ultra-soft knit sweater perfect for cooler weather. Made from premium wool blend with ribbed cuffs and hem for a comfortable, relaxed fit.",
+    "brand": "WarmWear",
+    "category": "Clothing",
+    "price": 69.99,
+    "countInStock": 18,
+    "rating": 4.5,
+    "numReviews": 20
+  }
+]

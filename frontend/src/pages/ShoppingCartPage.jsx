@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "@/components/CartItem";
 import CartSummary from "@/components/CartSummary";
-import EmptyCart from "@/components/EmptyCart";
 import { addToCart, removeFromCart } from "@/slices/cartSlice";
+import { ShoppingBag } from "lucide-react";
+import { Button } from "@/components/ui/button";
 // import Image from "next/image"
 // import bannerImg from '../assets/bannerImg.jpg'
 
@@ -45,6 +46,21 @@ export default function ShoppingCartPage() {
     const checkoutHandler = () => {
         navigate("/login?redirect=/shipping");
     };
+
+    const EmptyCart = () => (
+        <div className="flex flex-col items-center justify-center py-16 px-4">
+            <div className="w-32 h-32 mb-6 rounded-full bg-muted flex items-center justify-center">
+                <ShoppingBag className="w-16 h-16 text-muted-foreground" />
+            </div>
+            <h3 className="text-2xl font-bold mb-2 text-balance">Your cart is empty</h3>
+            <p className="text-muted-foreground text-center mb-6 max-w-md text-pretty">
+                Start adding items you would purchase to your cart. You can save items while browsing and come back to them later.
+            </p>
+            <Button 
+                onClick={() => navigate("/")}
+                className="bg-primary hover:bg-primary/90">Start Shopping</Button>
+        </div>
+    );
 
     return (
         <div className="container mx-auto px-4 py-24 lg:px-8 lg:py-16 max-w-screen-md">
