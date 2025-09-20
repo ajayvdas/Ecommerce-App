@@ -65,40 +65,57 @@ export default function ProductPage() {
 
                 />
             ) : product ? (
-                <div className="container mx-auto px-4 py-24 lg:px-8 lg:py-16 max-w-screen-lg">
-                    <Link to="/">
-                        <Button variant="outline" className="mb-4 md:mt-6">
-                            <ArrowLeft className="mr-2 h-4 w-4" /> Go back
-                        </Button>
-                    </Link>
-
-                    <div className="grid md:grid-cols-2 gap-8">
-                        <ProductImage image={product.image} name={product.name} />
-                        <ProductDetails product={product} />
+                <div className="min-h-screen bg-white">
+                    {/* Back Button */}
+                    <div className="container mx-auto px-4 pt-6">
+                        <Link to="/">
+                            <Button variant="ghost" className="mb-6 text-gray-600 hover:text-gray-900">
+                                <ArrowLeft className="mr-2 h-4 w-4" /> Go back
+                            </Button>
+                        </Link>
                     </div>
 
-                    <AddToCartSection
-                        product={product}
-                        quantity={quantity}
-                        setQuantity={setQuantity}
-                        onAddToCart={addToCartHandler}
-                    />
-                    {/* todo: build a better messaging component */}
-                    <ReviewsSection reviews={product.reviews} />
-                    {userInfo ? (
-                        <WriteReviewForm
-                            rating={rating}
-                            setRating={setRating}
-                            comment={comment}
-                            setComment={setComment}
-                            loadingProductReview={loadingProductReview}
-                            onSubmit={submitHandler}
-                        />
-                    ) : (
-                        <p>
-                            Please <Link to="/login">sign in</Link> to write a review
-                        </p>
-                    )}
+                    {/* Main Product Section */}
+                    <div className="container mx-auto px-4 pb-12">
+                        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+                            {/* Product Images */}
+                            <ProductImage image={product.image} name={product.name} />
+                            
+                            {/* Product Details */}
+                            <div className="space-y-6">
+                                <ProductDetails product={product} />
+                                <AddToCartSection
+                                    product={product}
+                                    quantity={quantity}
+                                    setQuantity={setQuantity}
+                                    onAddToCart={addToCartHandler}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Reviews Section */}
+                    <div className="bg-gray-50 py-16">
+                        <div className="container mx-auto px-4">
+                            <ReviewsSection reviews={product.reviews} />
+                            {userInfo ? (
+                                <WriteReviewForm
+                                    rating={rating}
+                                    setRating={setRating}
+                                    comment={comment}
+                                    setComment={setComment}
+                                    loadingProductReview={loadingProductReview}
+                                    onSubmit={submitHandler}
+                                />
+                            ) : (
+                                <div className="text-center mt-8">
+                                    <p className="text-gray-600">
+                                        Please <Link to="/login" className="text-blue-600 hover:underline">sign in</Link> to write a review
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
             ) : (
                 <p>No data available</p>
