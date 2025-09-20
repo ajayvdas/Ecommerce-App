@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Link } from "react-router-dom"
 import Pagination from "./Pagination"
 
-export default function ProductGrid({ products, totalCount }) {
+export default function ProductGrid({ products, totalCount, onAddToCart }) {
   const hasProducts = Array.isArray(products) && products.length > 0
   const isQueryActive = false
 
@@ -58,9 +58,15 @@ export default function ProductGrid({ products, totalCount }) {
                     </span>
                     <button
                       type="button"
-                      className="inline-flex items-center rounded-md bg-foreground text-background px-3 py-2 text-xs md:text-sm font-medium transition hover:opacity-90"
+                      className={`inline-flex items-center rounded-md px-3 py-2 text-xs md:text-sm font-medium transition ${
+                        product.countInStock === 0
+                          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                          : "bg-foreground text-background hover:opacity-90"
+                      }`}
+                      onClick={() => onAddToCart({...product}, 1)}
+                      disabled={product.countInStock === 0}
                     >
-                      Add to Cart
+                      {product.countInStock === 0 ? "Out of Stock" : "Add to Cart"}
                     </button>
                   </div>
                 </CardContent>

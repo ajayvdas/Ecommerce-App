@@ -1,12 +1,16 @@
 
 import { useState } from "react"
+import { useDispatch } from "react-redux"
 import ProductFilters from "@/components/ProductFilters"
 import { useQueryParams } from "@/hooks/useQueryParams"
 import { useGetProductsQuery } from "@/slices/productsApiSlice"
 import Loader from "@/components/Loader"
 import ProductGrid from "@/components/ProductGrid"
+import { addToCart } from "@/slices/cartSlice"
+import { toast } from "react-toastify"
 
 const ProductsPage = () => {
+  const dispatch = useDispatch()
   const { queryParams } = useQueryParams()
   const { data, error, isLoading } = useGetProductsQuery(queryParams)
 
@@ -14,6 +18,11 @@ const ProductsPage = () => {
   const totalCount = data?.totalCount || 0
 
   const [showMobileFilters, setShowMobileFilters] = useState(false)
+
+  const handleAddToCart = (product, quantity = 1) => {
+    dispatch(addToCart({ ...product, quantity }))
+    toast.success('Product added to cart')
+  }
 
   if (error) return <div className="container mx-auto px-4 py-8 text-red-600">Error loading products</div>
 
@@ -60,7 +69,7 @@ const ProductsPage = () => {
             </aside>
 
             {/* Grid */}
-            <ProductGrid products={products} totalCount={totalCount} />
+            <ProductGrid products={products} totalCount={totalCount} onAddToCart={handleAddToCart} />
           </div>
         </div>
       )}

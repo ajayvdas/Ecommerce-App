@@ -15,21 +15,6 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { addToCart } from "@/slices/cartSlice";
 
-// Mock product data (replace with actual data fetching in a real application)
-// const product = {
-//   id: 1,
-//   name: "Classic Denim Jacket",
-//   price: 89.99,
-//   description: "A timeless denim jacket that never goes out of style. Perfect for layering in any season.",
-//   image: bannerImg,
-//   rating: 4.5,
-//   numReviews: 127,
-//   status: "In stock",
-//   reviews: [
-//     { id: 1, author: "John Doe", rating: 5, comment: "Great quality and fit!" },
-//     { id: 2, author: "Jane Smith", rating: 4, comment: "Nice jacket, but runs a bit small." },
-//   ]
-// }
 
 export default function ProductPage() {
     const { id: productId } = useParams();
