@@ -49,24 +49,32 @@ export default function HomePage() {
             <TopBrandsSection />
             
             {/* Newest Arrivals */}
-            <NewestArrivalsSection 
-                onAddToWishlist={handleAddToWishlist}
-                onAddToCart={handleAddToCart}
-                isAdding={isAdding}
-            />
+            <section className="py-20 bg-gray-50">
+                <NewestArrivalsSection 
+                    onAddToWishlist={handleAddToWishlist}
+                    onAddToCart={handleAddToCart}
+                    isAdding={isAdding}
+                />
+            </section>
             
             {/* Curated Categories */}
-            <CuratedCategoriesSection />
+            <section className="py-20 bg-white">
+                <CuratedCategoriesSection />
+            </section>
             
             {/* Promotional Section */}
-            <PromotionalSection />
+            <section className="py-20 bg-gray-50">
+                <PromotionalSection />
+            </section>
             
             {/* Trending Section */}
-            <TrendingSection 
-                onAddToWishlist={handleAddToWishlist}
-                onAddToCart={handleAddToCart}
-                isAdding={isAdding}
-            />
+            <section className="py-20 bg-white">
+                <TrendingSection 
+                    onAddToWishlist={handleAddToWishlist}
+                    onAddToCart={handleAddToCart}
+                    isAdding={isAdding}
+                />
+            </section>
             
             {/* Testimonials */}
             <TestimonialsSection />

@@ -4,42 +4,42 @@ const brands = [
     {
         id: 1,
         name: "Gucci",
-        logo: "/placeholder.svg?height=40&width=120&text=GUCCI",
+        logo: "/gucci.svg",
     },
     {
         id: 2,
         name: "Ambush",
-        logo: "/placeholder.svg?height=40&width=120&text=AMBUSH",
+        logo: "/ambush.svg",
     },
     {
         id: 3,
         name: "Prada",
-        logo: "/placeholder.svg?height=40&width=120&text=PRADA",
+        logo: "/prada.svg",
     },
     {
         id: 4,
         name: "Chanel",
-        logo: "/placeholder.svg?height=40&width=120&text=CHANEL",
+        logo: "/chanel.svg",
     },
     {
         id: 5,
         name: "Adidas",
-        logo: "/adidas-brand-logo.jpg",
+        logo: "/adidas.svg",
     },
     {
         id: 6,
         name: "Vogue",
-        logo: "/placeholder.svg?height=40&width=120&text=VOGUE",
+        logo: "/vogue.svg",
     },
     {
         id: 7,
         name: "Withings",
-        logo: "/placeholder.svg?height=40&width=120&text=WITHINGS",
+        logo: "/withings.svg",
     },
     {
         id: 8,
         name: "Fendi",
-        logo: "/placeholder.svg?height=40&width=120&text=FENDI",
+        logo: "/fendi.svg",
     },
 ];
 

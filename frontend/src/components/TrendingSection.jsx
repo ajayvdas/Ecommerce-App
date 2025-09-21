@@ -1,186 +1,173 @@
-
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { TrendingUp, Heart, ShoppingCart, ArrowRight, Star } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Heart, ShoppingCart, TrendingUp } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 const trendingProducts = [
-  {
-    id: 1,
-    name: "Oversized Blazer",
-    price: 189.99,
-    originalPrice: 249.99,
-    image: "/oversized-blazer-fashion-model-trendy.jpg",
-    badge: "Trending",
-    discount: "24% OFF",
-    rating: 4.8,
-    reviews: 124,
-    category: "Blazers",
-  },
-  {
-    id: 2,
-    name: "High-Waist Jeans",
-    price: 89.99,
-    originalPrice: 119.99,
-    image: "/high-waist-jeans-fashion-model-denim.jpg",
-    badge: "Hot",
-    discount: "25% OFF",
-    rating: 4.9,
-    reviews: 89,
-    category: "Denim",
-  },
-  {
-    id: 3,
-    name: "Silk Midi Dress",
-    price: 159.99,
-    originalPrice: 199.99,
-    image: "/silk-midi-dress-elegant-fashion-model.jpg",
-    badge: "New",
-    discount: "20% OFF",
-    rating: 4.7,
-    reviews: 156,
-    category: "Dresses",
-  },
-  {
-    id: 4,
-    name: "Chunky Sneakers",
-    price: 129.99,
-    originalPrice: 169.99,
-    image: "/chunky-sneakers-fashion-footwear-trendy.jpg",
-    badge: "Popular",
-    discount: "23% OFF",
-    rating: 4.6,
-    reviews: 203,
-    category: "Footwear",
-  },
-]
+    {
+        id: 7,
+        name: "Oversized Hoodie",
+        price: 79.99,
+        originalPrice: 99.99,
+        image: "images/cozy-sweater.jpeg",
+        badge: "Trending",
+        discount: 20,
+    },
+    {
+        id: 8,
+        name: "Leather Boots",
+        price: 159.99,
+        originalPrice: 199.99,
+        image: "images/running-shoes.jpeg",
+        badge: "Hot",
+        discount: 20,
+    },
+    {
+        id: 9,
+        name: "Vintage Denim",
+        price: 119.99,
+        image: "images/denim-jeans.jpeg",
+        badge: "Trending",
+    },
+    {
+        id: 10,
+        name: "Minimalist Watch",
+        price: 249.99,
+        originalPrice: 299.99,
+        image: "images/classic-white-tee.jpeg",
+        badge: "Popular",
+        discount: 17,
+    },
+    {
+        id: 11,
+        name: "Cotton Dress",
+        price: 89.99,
+        image: "images/summer-dress.jpeg",
+        badge: "Trending",
+    },
+    {
+        id: 12,
+        name: "Designer Jacket",
+        price: 199.99,
+        originalPrice: 249.99,
+        image: "images/leather-jacket.jpeg",
+        badge: "Hot",
+        discount: 20,
+    },
+];
 
 export default function TrendingSection({ onAddToWishlist, isAdding, onAddToCart }) {
-  return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100">
-      <div className="container mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-white" />
+    return (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+                <div className="inline-flex items-center gap-3 mb-4">
+                    <TrendingUp className="w-8 h-8 text-gray-900" />
+                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+                        TRENDING NOW
+                    </h2>
+                </div>
+                <div className="w-20 h-1 bg-gray-900 mx-auto mb-4"></div>
+                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Discover the hottest items everyone's talking about
+                </p>
             </div>
-            <h2 className="text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-              TRENDING NOW
-            </h2>
-          </div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Discover the most sought-after pieces that are flying off our shelves. 
-            Limited quantities available.
-          </p>
+
+            <div className="relative">
+                <Carousel
+                    opts={{
+                        align: "start",
+                        loop: true,
+                    }}
+                    className="w-full"
+                >
+                    <CarouselContent className="-ml-2 md:-ml-4">
+                        {trendingProducts.map((product) => (
+                            <CarouselItem
+                                key={product.id}
+                                className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/5"
+                            >
+                                <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-0 shadow-sm bg-white group h-full">
+                                    <CardContent className="p-0 h-full flex flex-col">
+                                        <div className="relative aspect-[3/4] overflow-hidden">
+                                            <img
+                                                src={product.image || "/placeholder.svg"}
+                                                alt={product.name}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                            <div className="absolute top-3 left-3 flex flex-col gap-2">
+                                                <Badge 
+                                                    variant="secondary" 
+                                                    className={cn(
+                                                        "text-white text-xs px-2 py-1",
+                                                        product.badge === "Hot" && "bg-red-500",
+                                                        product.badge === "Trending" && "bg-orange-500",
+                                                        product.badge === "Popular" && "bg-blue-500"
+                                                    )}
+                                                >
+                                                    {product.badge}
+                                                </Badge>
+                                                {product.discount && (
+                                                    <Badge variant="secondary" className="bg-green-600 text-white text-xs px-2 py-1">
+                                                        -{product.discount}%
+                                                    </Badge>
+                                                )}
+                                            </div>
+
+                                            {/* Hover Actions */}
+                                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300">
+                                                <div className="absolute bottom-4 left-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 space-y-2">
+                                                    <Button 
+                                                        size="sm" 
+                                                        className="w-full bg-black hover:bg-gray-800 text-white text-xs py-2 h-auto"
+                                                        onClick={() => onAddToCart && onAddToCart(product, 1)}
+                                                    >
+                                                        <ShoppingCart className="w-3 h-3 mr-1" />
+                                                        Add to Cart
+                                                    </Button>
+                                                    <Button 
+                                                        size="sm" 
+                                                        variant="outline" 
+                                                        className="w-full bg-white/95 hover:bg-white border-white text-gray-900 text-xs py-2 h-auto"
+                                                        onClick={() => onAddToWishlist(product.id)}
+                                                        disabled={isAdding}
+                                                    >
+                                                        <Heart className="w-3 h-3 mr-1" />
+                                                        {isAdding ? 'Adding...' : 'Wishlist'}
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-4 flex-1 flex flex-col justify-between">
+                                            <div>
+                                                <h3 className="font-medium text-gray-900 text-sm mb-2 line-clamp-2">
+                                                    {product.name}
+                                                </h3>
+                                            </div>
+
+                                            <div className="flex items-center justify-between mt-2">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-lg font-bold text-gray-900">${product.price}</span>
+                                                    {product.originalPrice && (
+                                                        <span className="text-sm text-gray-500 line-through">
+                                                            ${product.originalPrice}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+
+                    <CarouselPrevious className="left-2 bg-white/90 hover:bg-white shadow-lg border-0 hidden sm:flex" />
+                    <CarouselNext className="right-2 bg-white/90 hover:bg-white shadow-lg border-0 hidden sm:flex" />
+                </Carousel>
+            </div>
         </div>
-
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          {trendingProducts.map((product, index) => (
-            <Card
-              key={product.id}
-              className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 bg-white rounded-2xl transform hover:-translate-y-2"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <CardContent className="p-0">
-                {/* Image Container */}
-                <div className="relative aspect-[3/4] overflow-hidden">
-                  <img
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  
-                  {/* Badges */}
-                  <div className="absolute top-4 left-4 flex flex-col gap-2">
-                    <Badge className="bg-gradient-to-r from-red-500 to-pink-500 text-white border-0 shadow-lg">
-                      {product.badge}
-                    </Badge>
-                    <Badge variant="outline" className="bg-white/95 text-red-600 border-red-200 shadow-md">
-                      {product.discount}
-                    </Badge>
-                  </div>
-
-                  {/* Quick Actions */}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      className="w-10 h-10 bg-white/90 hover:bg-white shadow-lg border-0 mb-2"
-                      onClick={() => onAddToWishlist(product.id)}
-                    >
-                      <Heart className="w-4 h-4 text-gray-700" />
-                    </Button>
-                  </div>
-
-                  {/* Hover Actions */}
-                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
-                    <Button 
-                      size="sm" 
-                      className="w-full bg-white text-gray-900 hover:bg-gray-100 shadow-lg border-0 font-semibold"
-                      onClick={() => onAddToCart({...product}, 1)}
-                    >
-                      <ShoppingCart className="w-4 h-4 mr-2" />
-                      Add to Cart
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Product Info */}
-                <div className="p-6">
-                  <div className="mb-3">
-                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      {product.category}
-                    </span>
-                  </div>
-                  
-                  <h3 className="font-bold text-gray-900 text-lg mb-3 line-clamp-2 group-hover:text-gray-700 transition-colors">
-                    {product.name}
-                  </h3>
-                  
-                  {/* Rating */}
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
-                        />
-                      ))}
-                    </div>
-                    <span className="text-sm text-gray-600">
-                      {product.rating} ({product.reviews})
-                    </span>
-                  </div>
-                  
-                  {/* Price */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl font-bold text-gray-900">${product.price}</span>
-                      <span className="text-sm text-gray-500 line-through">${product.originalPrice}</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* View All Button */}
-        <div className="text-center">
-          <Button 
-            size="lg" 
-            className="bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
-          >
-            View All Trending Items
-            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </div>
-      </div>
-    </section>
-  )
+    );
 }

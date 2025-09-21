@@ -38,71 +38,71 @@ const categories = [
 
 export default function CuratedCategoriesSection() {
     return (
-        <section className="py-16 px-4 bg-white">
-            <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-4">CURATED CATEGORIES</h2>
-                </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+                    CURATED CATEGORIES
+                </h2>
+                <div className="w-20 h-1 bg-gray-900 mx-auto mt-4"></div>
+            </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[600px]">
-                    {/* Large Category Card */}
-                    <div className="group cursor-pointer">
-                        <div
-                            className={`${categories[0].bgColor} rounded-2xl p-8 text-white relative overflow-hidden h-full flex flex-col justify-between transition-transform duration-300 group-hover:scale-105`}
-                        >
-                            <div className="absolute inset-0">
-                                <img
-                                    src={categories[0].image}
-                                    alt={categories[0].title}
-                                    className="w-full h-full object-cover opacity-20"
-                                />
-                            </div>
-                            <div className="absolute inset-0 bg-black/40"></div>
-                            <div className="relative z-10">
-                                <h3 className="text-3xl font-bold mb-4">{categories[0].title}</h3>
-                                <p className="text-white/90 mb-6 text-lg">{categories[0].description}</p>
-                            </div>
-                            <div className="relative z-10">
-                                <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
-                                    Shop Now
-                                    <ArrowRight className="ml-2 h-4 w-4" />
-                                </Button>
-                            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-auto lg:h-[600px]">
+                {/* Large Category Card */}
+                <div className="group cursor-pointer">
+                    <div
+                        className={`${categories[0].bgColor} rounded-xl p-6 sm:p-8 text-white relative overflow-hidden h-80 lg:h-full flex flex-col justify-between transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-2xl`}
+                    >
+                        <div className="absolute inset-0">
+                            <img
+                                src={categories[0].image}
+                                alt={categories[0].title}
+                                className="w-full h-full object-cover opacity-15"
+                            />
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-black/60"></div>
+                        <div className="relative z-10 flex-1 flex flex-col justify-center">
+                            <h3 className="text-2xl sm:text-3xl font-bold mb-3">{categories[0].title}</h3>
+                            <p className="text-white/90 mb-6 text-base sm:text-lg max-w-md">{categories[0].description}</p>
+                        </div>
+                        <div className="relative z-10">
+                            <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100 transition-all duration-300 group-hover:shadow-lg">
+                                Shop Now
+                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                            </Button>
                         </div>
                     </div>
+                </div>
 
-                    {/* Small Category Cards Grid */}
-                    <div className="grid grid-cols-1 gap-6">
-                        {categories.slice(1).map((category) => (
-                            <div key={category.id} className="group cursor-pointer">
-                                <div
-                                    className={`${category.bgColor} rounded-2xl p-6 text-white relative overflow-hidden h-full flex flex-col justify-between transition-transform duration-300 group-hover:scale-105`}
-                                >
-                                    <div className="absolute inset-0">
-                                        <img
-                                            src={category.image}
-                                            alt={category.title}
-                                            className="w-full h-full object-cover opacity-20"
-                                        />
-                                    </div>
-                                    <div className="absolute inset-0 bg-black/40"></div>
-                                    <div className="relative z-10">
-                                        <h3 className="text-xl font-bold mb-2">{category.title}</h3>
-                                        <p className="text-white/90 mb-4 text-sm">{category.description}</p>
-                                    </div>
-                                    <div className="relative z-10">
-                                        <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100 text-sm">
-                                            Shop Now
-                                            <ArrowRight className="ml-2 h-3 w-3" />
-                                        </Button>
-                                    </div>
+                {/* Small Category Cards Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+                    {categories.slice(1).map((category) => (
+                        <div key={category.id} className="group cursor-pointer">
+                            <div
+                                className={`${category.bgColor} rounded-xl p-4 sm:p-6 text-white relative overflow-hidden h-40 sm:h-48 lg:h-full flex flex-col justify-between transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-xl`}
+                            >
+                                <div className="absolute inset-0">
+                                    <img
+                                        src={category.image}
+                                        alt={category.title}
+                                        className="w-full h-full object-cover opacity-15"
+                                    />
+                                </div>
+                                <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-black/60"></div>
+                                <div className="relative z-10 flex-1 flex flex-col justify-center">
+                                    <h3 className="text-lg sm:text-xl font-bold mb-2">{category.title}</h3>
+                                    <p className="text-white/90 mb-4 text-sm max-w-xs">{category.description}</p>
+                                </div>
+                                <div className="relative z-10">
+                                    <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100 text-sm transition-all duration-300 group-hover:shadow-lg">
+                                        Shop Now
+                                        <ArrowRight className="ml-2 h-3 w-3 transition-transform group-hover:translate-x-1" />
+                                    </Button>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
-        </section>
+        </div>
     );
 }
-
