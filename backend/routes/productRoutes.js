@@ -6,7 +6,7 @@ import { getProducts, getProductById, createProduct, deleteProduct, updateProduc
 import { admin, protect } from "../middleware/authMiddleware.js";
 import checkObjectId from '../middleware/checkObjectId.js'
 
-router.route("/").get(getProducts).post(protect, admin, createProduct)
+router.route("/").get(protect, getProducts).post(protect, admin, createProduct)
 router.get('/top', getTopProducts)
 router.route("/:id/reviews").post(protect, checkObjectId,  createProductReview)
 router.route("/:id")

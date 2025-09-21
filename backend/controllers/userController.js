@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModal.js";
-import generateToken from "../utils/generateToken.js";
+import jwt from "jsonwebtoken";
+import { generateToken, setTokenCookies, clearTokenCookies, generateAccessToken } from "../utils/generateToken.js";
 
 // @desc Auth User and get token
 // @route POST /api/users/login
@@ -58,27 +59,67 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc Logout User / clear cookie
+// @desc Logout User / clear cookies
 // @route POST /api/users/logout
 // @access Private
-// Method 1
 const logoutUser = asyncHandler(async (req, res) => {
+    // Clear both access and refresh token cookies
+    clearTokenCookies(res);
+    
+    // Also clear legacy JWT cookie for backward compatibility
     res.cookie("jwt", "", {
         httpOnly: true,
-        expires: new Date(0), // Set the expiration date to a past time
+        expires: new Date(0),
     });
 
     res.status(200).json({ message: "Logged out successfully" });
 });
-//Method 2
-// const logoutUser = asyncHandler(async (req, res) => {
-//     res.clearCookie('jwt', { httpOnly: true });
 
-//     res.status(200).json({ message: 'Logged out successfully' });
-// });
-// Which is better?
-// Preferred Method: Method 2 is generally better because it is more concise and leverages the built-in functionality of res.clearCookie. It is easier to read and maintain.
-// Fallback: Use Method 1 if res.clearCookie is unavailable or unsupported in your server framework.
+// @desc Refresh access token
+// @route POST /api/users/refresh
+// @access Public
+const refreshToken = asyncHandler(async (req, res) => {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+        res.status(401);
+        throw new Error("No refresh token provided");
+    }
+
+    try {
+        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+        const user = await User.findById(decoded.userId).select("-password");
+
+        if (!user) {
+            res.status(401);
+            throw new Error("User not found");
+        }
+
+        // Generate new access token
+        const newAccessToken = generateAccessToken(user._id);
+        
+        // Set new access token cookie
+        res.cookie("accessToken", newAccessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== "development",
+            sameSite: "strict",
+            maxAge: 1 * 60 * 1000, // 15 minutes
+        });
+
+        res.status(200).json({
+            message: "Token refreshed successfully",
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,
+            }
+        });
+    } catch (error) {
+        res.status(401);
+        throw new Error("Invalid refresh token");
+    }
+});
 
 // @desc Get User Profile
 // @route GET /api/users/profile
@@ -194,6 +235,7 @@ export {
     registerUser,
     authUser,
     logoutUser,
+    refreshToken,
     getUsers,
     getUserProfile,
     updateUserProfile,

@@ -8,6 +8,7 @@ import Loader from "@/components/Loader"
 import ProductGrid from "@/components/ProductGrid"
 import { addToCart } from "@/slices/cartSlice"
 import { toast } from "react-toastify"
+import { refreshTokens } from "@/slices/authSlice"
 
 const ProductsPage = () => {
   const dispatch = useDispatch()
@@ -24,7 +25,37 @@ const ProductsPage = () => {
     toast.success('Product added to cart')
   }
 
-  if (error) return <div className="container mx-auto px-4 py-8 text-red-600">Error loading products</div>
+  const handleRefreshToken = async () => {
+    try {
+      await dispatch(refreshTokens()).unwrap()
+      toast.success('Token refreshed successfully')
+    } catch (error) {
+      toast.error('Token refresh failed: ' + error.message)
+    }
+  }
+
+  if (error) {
+    console.error('ProductsPage error:', error);
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-red-600 text-center">
+          <h2 className="text-xl font-semibold mb-2">Error loading products</h2>
+          <p className="text-sm text-gray-600">
+            {error?.data?.message || error?.message || 'Unknown error occurred'}
+          </p>
+          <p className="text-xs text-gray-500 mt-2">
+            Status: {error?.status || 'Unknown'}
+          </p>
+          <button
+            onClick={handleRefreshToken}
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Try Refresh Token
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -36,17 +67,28 @@ const ProductsPage = () => {
           <div className="mb-4 md:mb-6 flex items-center justify-between">
             <h1 className="text-lg md:text-xl font-semibold text-foreground text-pretty">Products</h1>
 
-            {/* Mobile filter toggle */}
-            <button
-              type="button"
-              onClick={() => setShowMobileFilters((s) => !s)}
-              className="md:hidden inline-flex items-center gap-2 rounded-md border border-gray-200 dark:border-gray-700 px-3 py-2 text-sm font-medium bg-background hover:bg-accent hover:text-accent-foreground transition"
-              aria-expanded={showMobileFilters}
-              aria-controls="mobile-filters"
-            >
-              <span className="i-lucide-filter w-4 h-4" />
-              Filters
-            </button>
+            <div className="flex items-center gap-2">
+              {/* Debug: Manual token refresh button */}
+              <button
+                onClick={handleRefreshToken}
+                className="px-3 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600"
+                title="Test token refresh"
+              >
+                Refresh Token
+              </button>
+
+              {/* Mobile filter toggle */}
+              <button
+                type="button"
+                onClick={() => setShowMobileFilters((s) => !s)}
+                className="md:hidden inline-flex items-center gap-2 rounded-md border border-gray-200 dark:border-gray-700 px-3 py-2 text-sm font-medium bg-background hover:bg-accent hover:text-accent-foreground transition"
+                aria-expanded={showMobileFilters}
+                aria-controls="mobile-filters"
+              >
+                <span className="i-lucide-filter w-4 h-4" />
+                Filters
+              </button>
+            </div>
           </div>
 
           {/* Mobile filters (collapsible) */}
