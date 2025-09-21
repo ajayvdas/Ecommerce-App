@@ -91,9 +91,12 @@ export default function WishlistPage() {
     const dispatch = useDispatch();
     const { userInfo } = useSelector((state) => state.auth);
     
-    const { data: wishlistItems, isLoading, error } = useGetWishlistQuery(undefined, {
+    const { data: wishlistData, isLoading, error } = useGetWishlistQuery(undefined, {
         skip: !userInfo,
     });
+    
+    // Extract products array from the wishlist data
+    const wishlistItems = wishlistData?.products || [];
     
     const [removeFromWishlist, { isLoading: isRemoving }] = useRemoveFromWishlistMutation();
 
@@ -166,13 +169,10 @@ export default function WishlistPage() {
                                         alt={item.name}
                                         className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                                     />
-                                    {!item.inStock && (
+                                    {(!item.countInStock || item.countInStock === 0) && (
                                         <Badge variant="secondary" className="absolute top-2 left-2">
                                             Out of Stock
                                         </Badge>
-                                    )}
-                                    {item.originalPrice && (
-                                        <Badge className="absolute top-2 right-2 bg-destructive">Sale</Badge>
                                     )}
                                     <Button
                                         variant="ghost"
@@ -196,16 +196,11 @@ export default function WishlistPage() {
                                     <div className="flex items-center gap-1 mb-3">
                                         <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                                         <span className="text-sm font-medium">{item.rating}</span>
-                                        <span className="text-sm text-muted-foreground">({item.reviews})</span>
+                                        <span className="text-sm text-muted-foreground">({item.numReviews})</span>
                                     </div>
 
                                     <div className="flex items-center gap-2 mb-4">
                                         <span className="text-xl font-bold">${item.price}</span>
-                                        {item.originalPrice && (
-                                            <span className="text-sm text-muted-foreground line-through">
-                                                ${item.originalPrice}
-                                            </span>
-                                        )}
                                     </div>
 
                                     <div className="space-y-2">
