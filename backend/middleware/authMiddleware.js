@@ -39,7 +39,7 @@ const protect = asyncHandler(async (req, res, next) => {
                             httpOnly: true,
                             secure: process.env.NODE_ENV !== "development",
                             sameSite: "strict",
-                            maxAge: 1 * 60 * 1000, // 1 minute
+                            maxAge: 15 * 60 * 1000, // 15 minutes
                         });
                         // Set a header to indicate token was refreshed
                         res.set('X-Token-Refreshed', 'true');
@@ -95,7 +95,7 @@ const optionalAuth = asyncHandler(async (req, res, next) => {
                             httpOnly: true,
                             secure: process.env.NODE_ENV !== "development",
                             sameSite: "strict",
-                            maxAge: 1 * 60 * 1000, // 1 minute
+                            maxAge: 15 * 60 * 1000, // 15 minutes
                         });
                         // Set a header to indicate token was refreshed
                         res.set('X-Token-Refreshed', 'true');

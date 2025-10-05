@@ -8,7 +8,6 @@ import Loader from "@/components/Loader"
 import ProductGrid from "@/components/ProductGrid"
 import { addToCart } from "@/slices/cartSlice"
 import { toast } from "react-toastify"
-import { refreshTokens } from "@/slices/authSlice"
 import { Filter } from "lucide-react"
 
 const ProductsPage = () => {
@@ -26,14 +25,6 @@ const ProductsPage = () => {
     toast.success('Product added to cart')
   }
 
-  const handleRefreshToken = async () => {
-    try {
-      await dispatch(refreshTokens()).unwrap()
-      toast.success('Token refreshed successfully')
-    } catch (error) {
-      toast.error('Token refresh failed: ' + error.message)
-    }
-  }
 
   if (error) {
     console.error('ProductsPage error:', error);
@@ -47,12 +38,6 @@ const ProductsPage = () => {
           <p className="text-xs text-gray-500 mt-2">
             Status: {error?.status || 'Unknown'}
           </p>
-          <button
-            onClick={handleRefreshToken}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Try Refresh Token
-          </button>
         </div>
       </div>
     );
@@ -69,15 +54,6 @@ const ProductsPage = () => {
             <h1 className="text-lg md:text-xl font-semibold text-foreground text-pretty">Products</h1>
 
             <div className="flex items-center gap-2">
-              {/* Debug: Manual token refresh button */}
-              <button
-                onClick={handleRefreshToken}
-                className="px-3 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600"
-                title="Test token refresh"
-              >
-                Refresh Token
-              </button>
-
               {/* Mobile filter toggle */}
               <button
                 type="button"

@@ -103,7 +103,7 @@ const refreshToken = asyncHandler(async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV !== "development",
             sameSite: "strict",
-            maxAge: 1 * 60 * 1000, // 15 minutes
+            maxAge: 15 * 60 * 1000, // 15 minutes
         });
 
         res.status(200).json({
