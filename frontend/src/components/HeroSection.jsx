@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { ChevronLeft, ChevronRight, ShoppingBag } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
