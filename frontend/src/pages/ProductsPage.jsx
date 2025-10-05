@@ -9,6 +9,7 @@ import ProductGrid from "@/components/ProductGrid"
 import { addToCart } from "@/slices/cartSlice"
 import { toast } from "react-toastify"
 import { refreshTokens } from "@/slices/authSlice"
+import { Filter } from "lucide-react"
 
 const ProductsPage = () => {
   const dispatch = useDispatch()
@@ -85,7 +86,7 @@ const ProductsPage = () => {
                 aria-expanded={showMobileFilters}
                 aria-controls="mobile-filters"
               >
-                <span className="i-lucide-filter w-4 h-4" />
+                <Filter className="i-lucide-filter w-4 h-4" />
                 Filters
               </button>
             </div>

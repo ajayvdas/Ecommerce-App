@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 // Generate access token (short-lived)
 const generateAccessToken = (userId) => {
     return jwt.sign({ userId }, process.env.JWT_SECRET, {
-        expiresIn: "1m", // 15 minutes
+        expiresIn: "15m", // 15 minutes
     });
 };
 
@@ -21,7 +21,7 @@ const setTokenCookies = (res, accessToken, refreshToken) => {
         httpOnly: true,
         secure: process.env.NODE_ENV !== "development",
         sameSite: "strict",
-        maxAge: 1 * 60 * 1000, // 15 minutes
+        maxAge: 15 * 60 * 1000, // 15 minutes
     });
 
     // Refresh token cookie

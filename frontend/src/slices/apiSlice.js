@@ -7,7 +7,7 @@ import { BASE_URL } from "../utils/constants"
 const baseQueryWithReauth = async (args, api, extraOptions) => {
     let result = await fetchBaseQuery({ 
         baseUrl: BASE_URL,
-        credentials: 'include' // Important for cookies
+        credentials: 'include'
     })(args, api, extraOptions);
 
     // If the result is 401, try to refresh the token
