@@ -26,7 +26,7 @@ const Header = () => {
     });
 
     const cartItemsCount = cart.cartItems?.length || 0;
-    const wishlistItemsCount = wishlistData?.length || 0;
+    const wishlistItemsCount = wishlistData?.products?.length || 0;
 
     // Define routes where search should be shown
     const showSearchRoutes = ["/", "/products"];

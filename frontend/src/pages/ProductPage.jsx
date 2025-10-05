@@ -27,6 +27,7 @@ export default function ProductPage() {
     const [comment, setComment] = useState("");
 
     const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId);
+    console.log("product: ", product);
     const [createReview, { isLoading: loadingProductReview }] = useCreateReviewMutation();
 
     const { userInfo } = useSelector((state) => state.auth);

@@ -160,7 +160,7 @@ export default function WishlistPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {wishlistItems.map((item) => (
                             <Card
-                                key={item.id}
+                                key={item._id}
                                 className="group overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                             >
                                 <div className="relative">

@@ -4,7 +4,7 @@ import { Star, Clock } from 'lucide-react'
 import { Badge } from "@/components/ui/badge"
 
 function ProductDetails({ product }) {
-    // Calculate delivery time (mock data)
+    // Calculate delivery time (mock data - you can make this dynamic later)
     const deliveryTime = "02:30:25"
     const estimatedDelivery = "10 - 12 October 2024"
 
@@ -13,7 +13,7 @@ function ProductDetails({ product }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-6"
+            className="space-y-6 lg:space-y-8 xl:space-y-10"
         >
             {/* Category Badge */}
             <Badge variant="secondary" className="bg-gray-100 text-gray-700 px-3 py-1">
@@ -21,23 +21,42 @@ function ProductDetails({ product }) {
             </Badge>
 
             {/* Product Title */}
-            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight">
                 {product.name}
             </h1>
 
+            {/* Rating and Reviews */}
+            <div className="flex items-center space-x-3 lg:space-x-4">
+                <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                        <Star
+                            key={i}
+                            className={`w-5 h-5 lg:w-6 lg:h-6 ${
+                                i < Math.floor(product.rating)
+                                    ? 'text-yellow-400 fill-current'
+                                    : 'text-gray-300'
+                            }`}
+                        />
+                    ))}
+                </div>
+                <span className="text-sm lg:text-base text-gray-600">
+                    {product.rating} ({product.numReviews} reviews)
+                </span>
+            </div>
+
             {/* Price */}
-            <div className="text-3xl font-bold text-gray-900">
+            <div className="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900">
                 ${product.price.toFixed(2)}
             </div>
 
             {/* Delivery Information */}
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-                <Clock className="w-4 h-4" />
+            <div className="flex items-center space-x-2 text-sm lg:text-base text-gray-600">
+                <Clock className="w-4 h-4 lg:w-5 lg:h-5" />
                 <span>Order in <span className="font-semibold text-gray-900">{deliveryTime}</span> to get next day delivery</span>
             </div>
 
             {/* Description */}
-            <div className="text-gray-600 leading-relaxed">
+            <div className="text-gray-600 leading-relaxed text-sm lg:text-base lg:leading-loose">
                 {product.description}
             </div>
 
