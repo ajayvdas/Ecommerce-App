@@ -1,119 +1,98 @@
-import { motion } from "framer-motion";
-import { ShoppingCart, Heart } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { 
-    useAddToWishlistMutation, 
-    useRemoveFromWishlistMutation,
-    useCheckProductInWishlistQuery 
-} from "@/slices/wishlistApiSlice";
+
+
+import { Button } from "@/components/ui/button"
+import { Heart, Minus, Plus, ShoppingCart } from "lucide-react"
+import { motion } from "framer-motion"
 
 function AddToCartSection({ product, quantity, setQuantity, onAddToCart }) {
-    const { userInfo } = useSelector((state) => state.auth);
-    const navigate = useNavigate();
-    
-    // Wishlist functionality
-    const [addToWishlist, { isLoading: isAddingToWishlist }] = useAddToWishlistMutation();
-    const [removeFromWishlist, { isLoading: isRemovingFromWishlist }] = useRemoveFromWishlistMutation();
-    
-    // Check if product is in wishlist (only if user is logged in)
-    const { data: wishlistCheck } = useCheckProductInWishlistQuery(product._id, {
-        skip: !userInfo || !product._id
-    });
-    
-    const isInWishlist = wishlistCheck?.isInWishlist || false;
-    const isWishlistLoading = isAddingToWishlist || isRemovingFromWishlist;
-    
-    const handleWishlistToggle = async () => {
-        if (!userInfo) {
-            toast.error("Please login to add items to wishlist");
-            navigate("/login");
-            return;
-        }
-        
-        try {
-            if (isInWishlist) {
-                await removeFromWishlist(product._id).unwrap();
-                toast.success("Product removed from wishlist");
-            } else {
-                await addToWishlist(product._id).unwrap();
-                toast.success("Product added to wishlist");
-            }
-        } catch (error) {
-            console.error("Wishlist operation failed:", error);
-            toast.error(error?.data?.message || "Failed to update wishlist");
-        }
-    };
+  const incrementQuantity = () => {
+    if (quantity < product.countInStock) {
+      setQuantity(quantity + 1)
+    }
+  }
 
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="space-y-6 lg:space-y-8"
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1)
+    }
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.3 }}
+      className="space-y-6"
+    >
+      {/* Size Selector */}
+      <div>
+        <label className="block text-sm font-medium text-gray-900 mb-3">Select Size</label>
+        <div className="flex gap-2">
+          {["XS", "S", "M", "L", "XL"].map((size) => (
+            <button
+              key={size}
+              className="w-12 h-12 border-2 border-gray-200 rounded-lg hover:border-gray-900 transition-colors text-sm font-medium"
+            >
+              {size}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Quantity Selector */}
+      <div>
+        <label className="block text-sm font-medium text-gray-900 mb-3">Quantity</label>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={decrementQuantity}
+            disabled={quantity <= 1}
+            className="h-10 w-10 xl:h-10 xl:w-10 bg-transparent"
+          >
+            <Minus className="h-4 w-4" />
+          </Button>
+          <span className="text-lg font-medium w-12 text-center">{quantity}</span>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={incrementQuantity}
+            disabled={quantity >= product.countInStock}
+            className="h-10 w-10 xl:h-10 xl:w-10"
+          >
+            <Plus className="h-4 w-4" />
+          </Button>
+          <span className="text-sm text-gray-600 ml-2">
+            {product.countInStock > 0 ? `${product.countInStock} available` : "Out of stock"}
+          </span>
+        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex gap-3">
+        <Button
+          onClick={onAddToCart}
+          disabled={product.countInStock === 0}
+          className="flex-1 h-12 xl:h-12 text-base xl:text-base"
         >
-            {/* Quantity Selection */}
-            <div className="space-y-3">
-                <label className="text-sm lg:text-base font-medium text-gray-900">Quantity</label>
-                <div className="flex items-center space-x-3">
-                    <button
-                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-400 flex items-center justify-center font-medium text-gray-700 hover:text-gray-900 transition-all"
-                        disabled={quantity <= 1}
-                    >
-                        -
-                    </button>
-                    <span className="w-12 text-center font-medium text-lg">{quantity}</span>
-                    <button
-                        onClick={() => setQuantity(Math.min(product.countInStock, quantity + 1))}
-                        className="w-10 h-10 rounded-full border-2 border-gray-300 hover:border-gray-400 flex items-center justify-center font-medium text-gray-700 hover:text-gray-900 transition-all"
-                        disabled={quantity >= product.countInStock}
-                    >
-                        +
-                    </button>
-                </div>
-            </div>
+          <ShoppingCart className="mr-2 h-5 w-5" />
+          Add to Cart
+        </Button>
+        <Button variant="outline" size="icon" className="h-12 w-12 xl:h-12 xl:w-12 bg-transparent">
+          <Heart className="h-5 w-5" />
+        </Button>
+      </div>
 
-            {/* Action Buttons */}
-            <div className="flex space-x-3 lg:space-x-4">
-                <Button 
-                    type="button" 
-                    disabled={product.countInStock === 0} 
-                    className="flex-1 bg-gray-900 hover:bg-gray-800 text-white py-3 lg:py-4 text-lg lg:text-xl font-medium"
-                    onClick={onAddToCart}
-                >
-                    {product.countInStock > 0 ? "Add to Cart" : "Out of Stock"}
-                </Button>
-                <Button 
-                    variant="outline" 
-                    size="icon"
-                    className={`w-12 h-12 lg:w-14 lg:h-14 border-gray-300 hover:border-gray-400 ${
-                        isInWishlist ? 'bg-red-50 border-red-300 text-red-600' : ''
-                    }`}
-                    onClick={handleWishlistToggle}
-                    disabled={isWishlistLoading}
-                    title={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
-                >
-                    <Heart className={`h-5 w-5 lg:h-6 lg:w-6 ${isInWishlist ? 'fill-current' : ''}`} />
-                </Button>
-            </div>
-
-            {/* Stock Status */}
-            <div className="text-sm lg:text-base">
-                <span className={`font-medium ${
-                    product.countInStock > 0 ? "text-green-600" : "text-red-600"
-                }`}>
-                    {product.countInStock > 0 
-                        ? `In Stock (${product.countInStock} available)` 
-                        : "Out of Stock"
-                    }
-                </span>
-            </div>
-        </motion.div>
-    );
+      {/* Stock Status */}
+      {product.countInStock > 0 && product.countInStock <= 5 && (
+        <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
+          <p className="text-sm text-orange-800">
+            Only <span className="font-semibold">{product.countInStock}</span> left in stock - order soon!
+          </p>
+        </div>
+      )}
+    </motion.div>
+  )
 }
 
-export default AddToCartSection;
+export default AddToCartSection
