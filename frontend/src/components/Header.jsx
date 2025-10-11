@@ -86,12 +86,12 @@ const Header = () => {
 
                                 <TooltipComponent content="Liked Products">
                                     <Link
-                                        to="/wishlist"
+                                        to={userInfo ? "/wishlist" : "/login"}
                                         className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
                                         aria-label="Wishlist"
                                     >
                                         <Heart className="h-5 w-5" />
-                                        {wishlistItemsCount > 0 && (
+                                        {userInfo && wishlistItemsCount > 0 && (
                                             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
                                                 {wishlistItemsCount > 99 ? '99+' : wishlistItemsCount}
                                             </span>
@@ -101,11 +101,11 @@ const Header = () => {
 
                                 <TooltipComponent content="Cart">
                                     <Link
-                                        to="/cart"
+                                        to={userInfo ? "/cart" : "/login"}
                                         className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all duration-200"
                                     >
                                         <ShoppingBag className="h-5 w-5" />
-                                        {cartItemsCount > 0 && (
+                                        {userInfo && cartItemsCount > 0 && (
                                             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
                                                 {cartItemsCount > 99 ? '99+' : cartItemsCount}
                                             </span>
@@ -196,23 +196,23 @@ const Header = () => {
                                     <User className="h-4 w-4" />
                                 </Link>
                                 <Link
-                                    to="/wishlist"
+                                    to={userInfo ? "/wishlist" : "/login"}
                                     className="relative p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
                                     aria-label="Wishlist"
                                 >
                                     <Heart className="h-4 w-4" />
-                                    {wishlistItemsCount > 0 && (
+                                    {userInfo && wishlistItemsCount > 0 && (
                                         <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
                                             {wishlistItemsCount > 9 ? '9+' : wishlistItemsCount}
                                         </span>
                                     )}
                                 </Link>
                                 <Link
-                                    to="/cart"
+                                    to={userInfo ? "/cart" : "/login"}
                                     className="relative p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all duration-200"
                                 >
                                     <ShoppingBag className="h-4 w-4" />
-                                    {cartItemsCount > 0 && (
+                                    {userInfo && cartItemsCount > 0 && (
                                         <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
                                             {cartItemsCount > 9 ? '9+' : cartItemsCount}
                                         </span>
@@ -283,17 +283,17 @@ const Header = () => {
                         {/* Mobile Navigation Toggle */}
                         <div className="md:hidden flex items-center space-x-2">
                             <div className="flex items-center space-x-1">
-                                <Link to="/wishlist" className="relative p-2 text-gray-600 hover:text-gray-900 rounded-md">
+                                <Link to={userInfo ? "/wishlist" : "/login"} className="relative p-2 text-gray-600 hover:text-gray-900 rounded-md">
                                     <Heart className="h-5 w-5" />
-                                    {wishlistItemsCount > 0 && (
+                                    {userInfo && wishlistItemsCount > 0 && (
                                         <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
                                             {wishlistItemsCount > 9 ? '9+' : wishlistItemsCount}
                                         </span>
                                     )}
                                 </Link>
-                                <Link to="/cart" className="relative p-2 text-gray-600 hover:text-gray-900 rounded-md">
+                                <Link to={userInfo ? "/cart" : "/login"} className="relative p-2 text-gray-600 hover:text-gray-900 rounded-md">
                                     <ShoppingBag className="h-5 w-5" />
-                                    {cartItemsCount > 0 && (
+                                    {userInfo && cartItemsCount > 0 && (
                                         <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
                                             {cartItemsCount > 9 ? '9+' : cartItemsCount}
                                         </span>

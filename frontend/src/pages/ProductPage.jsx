@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { addToCart } from "@/slices/cartSlice";
-import { useAddToWishlistMutation } from "@/slices/wishlistApiSlice";
 
 export default function ProductPage() {
     const { id: productId } = useParams();
@@ -29,7 +28,6 @@ export default function ProductPage() {
     const { userInfo } = useSelector((state) => state.auth);
 
     const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId);
-    const [addToWishlist, { isLoading: isAdding }] = useAddToWishlistMutation();
     const [createReview, { isLoading: loadingProductReview }] = useCreateReviewMutation();
 
     const addToCartHandler = () => {
@@ -38,15 +36,6 @@ export default function ProductPage() {
         navigate("/cart");
     };
 
-    const addToWishlistHandler = async (productId) => {
-        try {
-            await addToWishlist(productId).unwrap();
-            toast.success("Product added to wishlist");
-        } catch (error) {
-            console.error("Failed to add to wishlist:", error);
-            toast.error("Failed to add to wishlist");
-        }
-    };
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -96,7 +85,6 @@ export default function ProductPage() {
                                     quantity={quantity}
                                     setQuantity={setQuantity}
                                     onAddToCart={addToCartHandler}
-                                    onAddToWishlist={addToWishlistHandler}
                                 />
                             </div>
                         </div>

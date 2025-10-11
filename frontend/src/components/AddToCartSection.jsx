@@ -3,8 +3,44 @@
 import { Button } from "@/components/ui/button"
 import { Heart, Minus, Plus, ShoppingCart } from "lucide-react"
 import { motion } from "framer-motion"
+import { useSelector } from "react-redux"
+import { useGetWishlistQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation } from "@/slices/wishlistApiSlice"
+import { toast } from "react-toastify"
 
 function AddToCartSection({ product, quantity, setQuantity, onAddToCart, onAddToWishlist }) {
+    const { userInfo } = useSelector((state) => state.auth);
+    
+    // Get wishlist data to check if product is already liked
+    const { data: wishlistData } = useGetWishlistQuery(undefined, {
+        skip: !userInfo,
+    });
+    
+    const [addToWishlist] = useAddToWishlistMutation();
+    const [removeFromWishlist] = useRemoveFromWishlistMutation();
+    
+    // Check if product is in wishlist
+    const isInWishlist = wishlistData?.products?.some(item => item._id === product._id) || false;
+    
+    const handleWishlistToggle = async () => {
+        if (!userInfo) {
+            toast.error("Please login to manage wishlist");
+            return;
+        }
+        
+        try {
+            if (isInWishlist) {
+                await removeFromWishlist(product._id).unwrap();
+                toast.success("Product removed from wishlist");
+            } else {
+                await addToWishlist(product._id).unwrap();
+                toast.success("Product added to wishlist");
+            }
+        } catch (error) {
+            console.error("Wishlist operation failed:", error);
+            toast.error("Failed to update wishlist");
+        }
+    };
+
   const incrementQuantity = () => {
     if (quantity < product.countInStock) {
       setQuantity(quantity + 1)
@@ -78,8 +114,13 @@ function AddToCartSection({ product, quantity, setQuantity, onAddToCart, onAddTo
           <ShoppingCart className="mr-2 h-5 w-5" />
           Add to Cart
         </Button>
-        <Button onClick={onAddToWishlist} variant="outline" size="icon" className="h-12 w-12 xl:h-12 xl:w-12 bg-transparent">
-          <Heart className="h-5 w-5" />
+        <Button 
+          onClick={handleWishlistToggle} 
+          variant="outline" 
+          size="icon" 
+          className={`h-12 w-12 xl:h-12 xl:w-12 bg-transparent ${isInWishlist ? 'text-red-500 border-red-500 hover:bg-red-50' : ''}`}
+        >
+          <Heart className={`h-5 w-5 ${isInWishlist ? 'fill-current' : ''}`} />
         </Button>
       </div>
 

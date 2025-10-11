@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Heart, ShoppingCart, Trash2, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,6 +8,7 @@ import { useGetWishlistQuery, useRemoveFromWishlistMutation } from "@/slices/wis
 import { addToCart } from "@/slices/cartSlice";
 import { toast } from "react-toastify";
 import Loader from "@/components/Loader";
+import { useNavigate } from "react-router-dom";
 
 // interface WishlistItem {
 //   id: string
@@ -89,7 +90,15 @@ const mockWishlistItems = [
 
 export default function WishlistPage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { userInfo } = useSelector((state) => state.auth);
+    
+    // Redirect to login if not authenticated
+    useEffect(() => {
+        if (!userInfo) {
+            navigate("/login?redirect=/wishlist");
+        }
+    }, [userInfo, navigate]);
     
     const { data: wishlistData, isLoading, error } = useGetWishlistQuery(undefined, {
         skip: !userInfo,

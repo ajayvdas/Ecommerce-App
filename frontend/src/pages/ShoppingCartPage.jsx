@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "@/components/CartItem";
 import CartSummary from "@/components/CartSummary";
-import { addToCart, removeFromCart } from "@/slices/cartSlice";
+import { addToCart, removeFromCart, resetCart } from "@/slices/cartSlice";
 import { ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 // import Image from "next/image"
 // import bannerImg from '../assets/bannerImg.jpg'
 
@@ -32,8 +33,23 @@ export default function ShoppingCartPage() {
     const dispatch = useDispatch();
 
     const cart = useSelector((state) => state.cart);
+    const { userInfo } = useSelector((state) => state.auth);
     const { cartItems, totalPrice, totalItems } = cart;
     console.table("cart items is: ", cartItems);
+
+    // Redirect to login if not authenticated
+    useEffect(() => {
+        if (!userInfo) {
+            navigate("/login?redirect=/cart");
+        }
+    }, [userInfo, navigate]);
+
+    // Clear cart when user logs out
+    useEffect(() => {
+        if (!userInfo && cartItems.length > 0) {
+            dispatch(resetCart());
+        }
+    }, [userInfo, cartItems.length, dispatch]);
 
     const addToCartHandler = async (product, quantity) => {
         dispatch(addToCart({ ...product, quantity }));
