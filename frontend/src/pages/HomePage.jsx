@@ -51,6 +51,7 @@ export default function HomePage() {
                     onAddToWishlist={handleAddToWishlist}
                     onAddToCart={handleAddToCart}
                     isAdding={isAdding}
+                    isLoggedIn={userInfo}
                 />
             </section>
 

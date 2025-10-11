@@ -70,7 +70,7 @@ export default function TrendingSection({ onAddToWishlist, isAdding, onAddToCart
                 </div>
                 <div className="w-20 h-1 bg-gray-900 mx-auto mb-4"></div>
                 <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                    Discover the hottest items everyone's talking about
+                    Discover the hottest items everyone&apos;s talking about
                 </p>
             </div>
 

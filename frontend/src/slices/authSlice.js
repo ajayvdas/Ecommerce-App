@@ -24,6 +24,12 @@ const authSlice = createSlice({
             state.error = null;
             localStorage.clear();
         },
+                setUnauthorized: (state) => {
+            state.userInfo = null;
+            state.tokenExpired = true;
+            state.error = "Unauthorized access";
+            localStorage.removeItem('userInfo');
+        },
         setTokenExpired: (state, action) => {
             state.tokenExpired = action.payload;
         },
@@ -33,6 +39,12 @@ const authSlice = createSlice({
     },
 })
 
-export const { setCredentials, logout, setTokenExpired, clearError } = authSlice.actions;
+export const { 
+    setCredentials, 
+    logout, 
+    setTokenExpired, 
+    clearError, 
+    setUnauthorized 
+} = authSlice.actions;
 
 export default authSlice.reducer; 

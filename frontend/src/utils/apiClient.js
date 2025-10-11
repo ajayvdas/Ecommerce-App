@@ -1,12 +1,12 @@
-import { store } from '../store';
-import { refreshTokens, logout, setCredentials } from '../slices/authSlice';
+import { store } from "../store";
+import { logout } from "../slices/authSlice";
 
 // Create a custom fetch wrapper that handles token refresh
 const apiClient = async (url, options = {}) => {
     const defaultOptions = {
-        credentials: 'include', // Important for cookies
+        credentials: "include", // Important for cookies
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             ...options.headers,
         },
     };
@@ -16,41 +16,27 @@ const apiClient = async (url, options = {}) => {
     try {
         const response = await fetch(url, requestOptions);
 
-        // Check if backend automatically refreshed the token
-        const tokenRefreshed = response.headers.get('X-Token-Refreshed');
-        if (tokenRefreshed === 'true' && response.ok) {
-            console.log('Token was automatically refreshed by backend');
-            // Optionally update Redux state if needed
-            const state = store.getState();
-            if (state.auth.userInfo) {
-                // Token was refreshed, user is still valid
-                store.dispatch(setCredentials(state.auth.userInfo));
-            }
+
+        // If the response is 401 (Unauthorized), logout the user
+        if (response.status === 401) {
+            console.log("Received 401, session expired. Logging out user.");
+            store.dispatch(logout());
+            throw new Error("Session expired. Please login again.");
         }
 
-        // If the response is 401 (Unauthorized), try to refresh the token
-        if (response.status === 401) {
-            console.log('Received 401, attempting to refresh token...');
-            try {
-                // Attempt to refresh the token
-                const refreshResult = await store.dispatch(refreshTokens()).unwrap();
-                console.log('Token refresh successful:', refreshResult);
-                
-                // Retry the original request
-                const retryResponse = await fetch(url, requestOptions);
-                console.log('Retry request status:', retryResponse.status);
-                return retryResponse;
-            } catch (refreshError) {
-                console.error('Token refresh failed:', refreshError);
-                // Refresh failed, logout the user
-                store.dispatch(logout());
-                throw new Error('Session expired. Please login again.');
-            }
+        // Handle 403 Forbidden - User is not authorized
+        if (response.status === 403) {
+            store.dispatch(logout()); // Clear user info
+            throw new Error("You are not authorized to access this resource.");
         }
 
         return response;
     } catch (error) {
-        console.error('API Client error:', error);
+        console.error("API Client error:", error);
+        // If the error is a network error or server is unreachable
+        if (!error.response) {
+            store.dispatch(logout()); // Clear user info for security
+        }
         throw error;
     }
 };

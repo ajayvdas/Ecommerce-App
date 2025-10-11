@@ -50,9 +50,9 @@ const newestProducts = [
     },
 ];
 
-export default function NewestArrivalsSection({ onAddToWishlist, isAdding, onAddToCart }) {
+export default function NewestArrivalsSection({ onAddToWishlist, isAdding, onAddToCart, isLoggedIn }) {
     const navigate = useNavigate();
-    
+    console.log(isLoggedIn)
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
