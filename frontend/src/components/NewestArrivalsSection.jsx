@@ -52,13 +52,11 @@ const newestProducts = [
 
 export default function NewestArrivalsSection({ onAddToWishlist, isAdding, onAddToCart, isLoggedIn }) {
     const navigate = useNavigate();
-    console.log(isLoggedIn)
+    console.log(isLoggedIn);
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
-                    NEWEST ARRIVALS
-                </h2>
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">NEWEST ARRIVALS</h2>
                 <div className="w-20 h-1 bg-gray-900 mx-auto mt-4"></div>
             </div>
 
@@ -85,7 +83,10 @@ export default function NewestArrivalsSection({ onAddToWishlist, isAdding, onAdd
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             />
                                             <div className="absolute top-3 left-3">
-                                                <Badge variant="secondary" className="bg-black text-white text-xs px-2 py-1">
+                                                <Badge
+                                                    variant="secondary"
+                                                    className="bg-black text-white text-xs px-2 py-1"
+                                                >
                                                     {product.badge}
                                                 </Badge>
                                             </div>
@@ -93,23 +94,23 @@ export default function NewestArrivalsSection({ onAddToWishlist, isAdding, onAdd
                                             {/* Hover Actions */}
                                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300">
                                                 <div className="absolute bottom-4 left-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 space-y-2">
-                                                    <Button 
-                                                        size="sm" 
+                                                    <Button
+                                                        size="sm"
                                                         className="w-full bg-black hover:bg-gray-800 text-white text-xs py-2 h-auto"
                                                         onClick={() => onAddToCart && onAddToCart(product, 1)}
                                                     >
                                                         <ShoppingCart className="w-3 h-3 mr-1" />
                                                         Add to Cart
                                                     </Button>
-                                                    <Button 
-                                                        size="sm" 
-                                                        variant="outline" 
+                                                    <Button
+                                                        size="sm"
+                                                        variant="outline"
                                                         className="w-full bg-white/95 hover:bg-white border-white text-gray-900 text-xs py-2 h-auto"
                                                         onClick={() => onAddToWishlist(product.id)}
                                                         disabled={isAdding}
                                                     >
                                                         <Heart className="w-3 h-3 mr-1" />
-                                                        {isAdding ? 'Adding...' : 'Wishlist'}
+                                                        {isAdding ? "Adding..." : "Wishlist"}
                                                     </Button>
                                                 </div>
                                             </div>

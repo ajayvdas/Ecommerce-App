@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Heart, Minus, Plus, ShoppingCart } from "lucide-react"
 import { motion } from "framer-motion"
 
-function AddToCartSection({ product, quantity, setQuantity, onAddToCart }) {
+function AddToCartSection({ product, quantity, setQuantity, onAddToCart, onAddToWishlist }) {
   const incrementQuantity = () => {
     if (quantity < product.countInStock) {
       setQuantity(quantity + 1)
@@ -78,7 +78,7 @@ function AddToCartSection({ product, quantity, setQuantity, onAddToCart }) {
           <ShoppingCart className="mr-2 h-5 w-5" />
           Add to Cart
         </Button>
-        <Button variant="outline" size="icon" className="h-12 w-12 xl:h-12 xl:w-12 bg-transparent">
+        <Button onClick={onAddToWishlist} variant="outline" size="icon" className="h-12 w-12 xl:h-12 xl:w-12 bg-transparent">
           <Heart className="h-5 w-5" />
         </Button>
       </div>

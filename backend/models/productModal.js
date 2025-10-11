@@ -43,6 +43,11 @@ const productSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        size: {
+            type: String,
+            enum: ['xs', 'sm', 'm', 'l', 'xl'],
+            required: true
+        },
         reviews: [reviewSchema],
         rating: {
             type: Number,
