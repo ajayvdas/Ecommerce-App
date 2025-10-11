@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Mail, Lock, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ShoppingBag } from "lucide-react";
+
+import {  useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useRegisterMutation } from "@/slices/usersApiSlice";
 import Loader from "@/components/Loader";
 import { toast } from "react-toastify";
 import { setCredentials } from "@/slices/authSlice";
+import { SignupForm } from "@/components/SignupForm";
 
 function RegisterPage() {
     const [name, setName] = useState("");
@@ -45,102 +43,52 @@ function RegisterPage() {
                 dispatch(setCredentials({ ...res }));
                 navigate(redirect);
             } catch (err) {
-                
                 toast.error(err?.data?.message || err.error);
             }
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <motion.div
-                className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-            >
-                <h1 className="text-2xl font-bold mb-6 text-center">Sign In</h1>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
-                        <div className="relative">
-                            <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                            <Input
-                                id="name"
-                                type="name"
-                                placeholder="Enter your name"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className="pl-10"
-                                required
-                            />
+        <div className="grid min-h-svh lg:grid-cols-2">
+            {isLoading ? (
+                <Loader />
+            ) : (
+                <>
+                    <div className="flex flex-col gap-4 p-6 md:p-10">
+                        <div className="flex justify-center gap-2 md:justify-start">
+                            <a href="#" className="flex items-center gap-2 font-medium">
+                                <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
+                                    <ShoppingBag className="size-4" />
+                                </div>
+                                Thread Theory.
+                            </a>
+                        </div>
+                        <div className="flex flex-1 items-center justify-center">
+                            <div className="w-full max-w-xs">
+                                <SignupForm
+                                    name={name}
+                                    setName={setName}
+                                    email={email}
+                                    setEmail={setEmail}
+                                    password={password}
+                                    setPassword={setPassword}
+                                    confirmPassword={confirmPassword}
+                                    setConfirmPassword={setConfirmPassword}
+                                    onSubmit={handleSubmit}
+                                    redirect={redirect}
+                                />
+                            </div>
                         </div>
                     </div>
-
-                    <div className="space-y-2">
-                        <Label htmlFor="email">Email Address</Label>
-                        <div className="relative">
-                            <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="Enter your email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="pl-10"
-                                required
-                            />
-                        </div>
+                    <div className="bg-muted relative hidden lg:block">
+                        <img
+                            src="/loginform.svg"
+                            alt="Image"
+                            className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                        />
                     </div>
-
-                    <div className="space-y-2">
-                        <Label htmlFor="password">Password</Label>
-                        <div className="relative">
-                            <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                            <Input
-                                id="password"
-                                type="password"
-                                placeholder="Enter your password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="pl-10"
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    <div className="space-y-2">
-                        <Label htmlFor="confirmPassword">Confirm Password</Label>
-                        <div className="relative">
-                            <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                            <Input
-                                id="confirmPassword"
-                                type="password"
-                                placeholder="Confirm password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="pl-10"
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    <Button type="submit" className="w-full">
-                        Register
-                    </Button>
-
-                    {isLoading && <Loader />}
-                </form>
-                <div className="mt-4 text-center">
-                    <span className="text-gray-600">Already have an account? </span>
-                    <Link
-                        to={redirect ? `/login?redirect=${redirect}` : "/login"}
-                        className="text-blue-600 hover:underline"
-                    >
-                        Login
-                    </Link>
-                </div>
-            </motion.div>
+                </>
+            )}
         </div>
     );
 }
