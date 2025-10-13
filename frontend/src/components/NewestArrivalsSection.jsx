@@ -3,56 +3,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Heart, ShoppingCart, ArrowRight } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { useNavigate } from "react-router-dom";
 
-const newestProducts = [
-    {
-        id: 1,
-        name: "Denim Jacket",
-        price: 89.99,
-        image: "images/denim-jeans.jpeg",
-        badge: "New",
-    },
-    {
-        id: 2,
-        name: "Tweed Blazer",
-        price: 199.99,
-        image: "images/leather-jacket.jpeg",
-        badge: "New",
-    },
-    {
-        id: 3,
-        name: "Tuxedo Suit",
-        price: 299.99,
-        image: "images/classic-white-tee.jpeg",
-        badge: "New",
-    },
-    {
-        id: 4,
-        name: "Utility Jacket",
-        price: 149.99,
-        image: "images/cozy-sweater.jpeg",
-        badge: "New",
-    },
-    {
-        id: 5,
-        name: "Casual Shirt",
-        price: 69.99,
-        image: "images/summer-dress.jpeg",
-        badge: "New",
-    },
-    {
-        id: 6,
-        name: "Formal Blazer",
-        price: 179.99,
-        image: "images/running-shoes.jpeg",
-        badge: "New",
-    },
-];
+export default function NewestArrivalsSection({ onAddToWishlist, isAdding, onAddToCart, products, navigate }) {
+    const newestProducts =  products?.products || []
 
-export default function NewestArrivalsSection({ onAddToWishlist, isAdding, onAddToCart, isLoggedIn }) {
-    const navigate = useNavigate();
-    console.log(isLoggedIn);
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
@@ -71,7 +25,7 @@ export default function NewestArrivalsSection({ onAddToWishlist, isAdding, onAdd
                     <CarouselContent className="-ml-2 md:-ml-4">
                         {newestProducts.map((product) => (
                             <CarouselItem
-                                key={product.id}
+                                key={product._id}
                                 className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/5"
                             >
                                 <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-0 shadow-sm bg-white group h-full">
@@ -87,7 +41,8 @@ export default function NewestArrivalsSection({ onAddToWishlist, isAdding, onAdd
                                                     variant="secondary"
                                                     className="bg-black text-white text-xs px-2 py-1"
                                                 >
-                                                    {product.badge}
+                                                    {/* {product.badge} */}
+                                                    New
                                                 </Badge>
                                             </div>
 
@@ -105,8 +60,8 @@ export default function NewestArrivalsSection({ onAddToWishlist, isAdding, onAdd
                                                     <Button
                                                         size="sm"
                                                         variant="outline"
-                                                        className="w-full bg-white/95 hover:bg-white border-white text-gray-900 text-xs py-2 h-auto"
-                                                        onClick={() => onAddToWishlist(product.id)}
+                                                        className={`w-full bg-white/95 hover:bg-white border-white text-gray-900 text-xs py-2 h-auto`}
+                                                        onClick={() => onAddToWishlist(product._id)}
                                                         disabled={isAdding}
                                                     >
                                                         <Heart className="w-3 h-3 mr-1" />

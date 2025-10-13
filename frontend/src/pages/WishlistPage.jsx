@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Heart, ShoppingCart, Trash2, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,71 +22,71 @@ import { useNavigate } from "react-router-dom";
 //   inStock: boolean
 // }
 
-const mockWishlistItems = [
-    {
-        id: "1",
-        name: "Elegant Silk Blouse",
-        price: 89.99,
-        originalPrice: 129.99,
-        image: "/elegant-silk-blouse-fashion.jpg",
-        brand: "Luxe Fashion",
-        rating: 4.8,
-        reviews: 124,
-        inStock: true,
-    },
-    {
-        id: "2",
-        name: "Designer Leather Handbag",
-        price: 299.99,
-        image: "/luxury-leather-handbag.png",
-        brand: "Milano Bags",
-        rating: 4.9,
-        reviews: 89,
-        inStock: true,
-    },
-    {
-        id: "3",
-        name: "Vintage Denim Jacket",
-        price: 79.99,
-        originalPrice: 99.99,
-        image: "/vintage-denim-jacket-fashion.jpg",
-        brand: "Urban Style",
-        rating: 4.6,
-        reviews: 203,
-        inStock: false,
-    },
-    {
-        id: "4",
-        name: "Cashmere Scarf",
-        price: 149.99,
-        image: "/cashmere-scarf-luxury-fashion.jpg",
-        brand: "Soft Luxe",
-        rating: 4.7,
-        reviews: 67,
-        inStock: true,
-    },
-    {
-        id: "5",
-        name: "High-Waist Trousers",
-        price: 119.99,
-        originalPrice: 159.99,
-        image: "/high-waist-trousers-elegant-fashion.jpg",
-        brand: "Modern Fit",
-        rating: 4.5,
-        reviews: 156,
-        inStock: true,
-    },
-    {
-        id: "6",
-        name: "Statement Earrings",
-        price: 45.99,
-        image: "/statement-earrings-jewelry-fashion.jpg",
-        brand: "Sparkle Co",
-        rating: 4.4,
-        reviews: 92,
-        inStock: true,
-    },
-];
+// const mockWishlistItems = [
+//     {
+//         id: "1",
+//         name: "Elegant Silk Blouse",
+//         price: 89.99,
+//         originalPrice: 129.99,
+//         image: "/elegant-silk-blouse-fashion.jpg",
+//         brand: "Luxe Fashion",
+//         rating: 4.8,
+//         reviews: 124,
+//         inStock: true,
+//     },
+//     {
+//         id: "2",
+//         name: "Designer Leather Handbag",
+//         price: 299.99,
+//         image: "/luxury-leather-handbag.png",
+//         brand: "Milano Bags",
+//         rating: 4.9,
+//         reviews: 89,
+//         inStock: true,
+//     },
+//     {
+//         id: "3",
+//         name: "Vintage Denim Jacket",
+//         price: 79.99,
+//         originalPrice: 99.99,
+//         image: "/vintage-denim-jacket-fashion.jpg",
+//         brand: "Urban Style",
+//         rating: 4.6,
+//         reviews: 203,
+//         inStock: false,
+//     },
+//     {
+//         id: "4",
+//         name: "Cashmere Scarf",
+//         price: 149.99,
+//         image: "/cashmere-scarf-luxury-fashion.jpg",
+//         brand: "Soft Luxe",
+//         rating: 4.7,
+//         reviews: 67,
+//         inStock: true,
+//     },
+//     {
+//         id: "5",
+//         name: "High-Waist Trousers",
+//         price: 119.99,
+//         originalPrice: 159.99,
+//         image: "/high-waist-trousers-elegant-fashion.jpg",
+//         brand: "Modern Fit",
+//         rating: 4.5,
+//         reviews: 156,
+//         inStock: true,
+//     },
+//     {
+//         id: "6",
+//         name: "Statement Earrings",
+//         price: 45.99,
+//         image: "/statement-earrings-jewelry-fashion.jpg",
+//         brand: "Sparkle Co",
+//         rating: 4.4,
+//         reviews: 92,
+//         inStock: true,
+//     },
+// ];
 
 export default function WishlistPage() {
     const dispatch = useDispatch();
@@ -148,7 +148,7 @@ export default function WishlistPage() {
             <p className="text-muted-foreground text-center mb-6 max-w-md text-pretty">
                 Start adding items you love to your wishlist. You can save items while browsing and come back to them later.
             </p>
-            <Button className="bg-primary hover:bg-primary/90">Start Shopping</Button>
+            <Button className="bg-primary hover:bg-primary/90" onClick={() => navigate('/')}>Start Shopping</Button>
         </div>
     );
 

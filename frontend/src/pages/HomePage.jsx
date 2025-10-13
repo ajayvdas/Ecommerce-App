@@ -11,6 +11,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import { useAddToWishlistMutation } from "@/slices/wishlistApiSlice";
 import { addToCart } from "@/slices/cartSlice";
 import { toast } from "react-toastify";
+import { useGetProductsQuery, useGetTopProductsQuery } from "@/slices/productsApiSlice";
 
 export default function HomePage() {
     const { userInfo } = useSelector((state) => state.auth);
@@ -18,6 +19,13 @@ export default function HomePage() {
     const navigate = useNavigate();
 
     const [addToWishlist, { isLoading: isAdding }] = useAddToWishlistMutation();
+        
+        
+    const { data: products } = useGetProductsQuery({
+        sort: "createdAt",
+        limit: 8,
+    });
+    const { data: topProducts } = useGetTopProductsQuery();
 
     const handleAddToWishlist = async (productId) => {
         if (!userInfo) {
@@ -51,7 +59,8 @@ export default function HomePage() {
                     onAddToWishlist={handleAddToWishlist}
                     onAddToCart={handleAddToCart}
                     isAdding={isAdding}
-                    isLoggedIn={userInfo}
+                    products={products}
+                    navigate={navigate}
                 />
             </section>
 
@@ -64,7 +73,12 @@ export default function HomePage() {
             </section>
 
             <section className="py-20 bg-white">
-                <TrendingSection onAddToWishlist={handleAddToWishlist} onAddToCart={handleAddToCart} isAdding={isAdding} />
+                <TrendingSection
+                    onAddToWishlist={handleAddToWishlist}
+                    onAddToCart={handleAddToCart}
+                    isAdding={isAdding}
+                    topProducts={topProducts}
+                />
             </section>
 
             <TestimonialsSection />

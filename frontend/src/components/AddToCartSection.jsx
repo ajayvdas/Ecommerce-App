@@ -7,7 +7,7 @@ import { useSelector } from "react-redux"
 import { useGetWishlistQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation } from "@/slices/wishlistApiSlice"
 import { toast } from "react-toastify"
 
-function AddToCartSection({ product, quantity, setQuantity, onAddToCart, onAddToWishlist }) {
+function AddToCartSection({ product, quantity, setQuantity, onAddToCart }) {
     const { userInfo } = useSelector((state) => state.auth);
     
     // Get wishlist data to check if product is already liked
